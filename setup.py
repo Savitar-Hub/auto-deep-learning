@@ -16,6 +16,7 @@ setup(
     url='https://github.com/Nil-Andreu/auto-deep-learning',
     author='Nil Andreu',
     author_email='nilandreug@email.com',
+    data_files=[('', ['README.md'])],
     keywords=[
         'deep learning',
         'machine learning',
