@@ -1,9 +1,18 @@
 from setuptools import setup
 
+try:
+    import pypandoc
+    long_description = pypandoc.convert_file('README.md', 'rst')
+
+except (IOError, ImportError):
+    long_description = open('README.md').read()
+
+
 setup(
     name='auto_deep_learning',
     version='0.1',
     description='Automation of the creation of the architecture of the neural network based on the input',
+    long_description=long_description,
     url='https://github.com/Nil-Andreu/auto-deep-learning',
     author='Nil Andreu',
     author_email='nilandreug@email.com',
