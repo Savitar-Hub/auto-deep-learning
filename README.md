@@ -4,14 +4,18 @@
 ```auto_deep_learning```: with this package, you will be able to create, train and deploy neural networks automatically based on the input that you provide.
 
 ## Installation
-Use the package manager [pip](https://pypi.org/project/pip/) to install auto_deep_learning.
+Use the package manager [pip](https://pypi.org/project/pip/) to install *auto_deep_learning*.
 
 To install the package:
 ```bash
     pip install auto_deep_learning
 ```
 
-If using an old version of the package,
+**If using an old version of the package, update it:**
 ```bash
     pip install --upgrade auto_deep_learning
 ```
+
+
+## Basic Usage
+Import model from auto_deep_learning.
