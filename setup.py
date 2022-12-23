@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='auto_nn',
+    name='auto_learning',
     version='0.1',
     description='Automation of the creation of the architecture of the neural network based on the input',
     url='https://github.com/Nil-Andreu/auto-nn',
@@ -15,8 +15,8 @@ setup(
     ],
     license='MIT',
     packages=[
-        'auto_nn',
-        'auto_nn.test'
+        'auto_learning',
+        'auto_learning.test'
     ],
     zip_safe=False,
     install_requires=[
@@ -26,13 +26,13 @@ setup(
         'pytest'
     ],
     classifiers=[
-    'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-    'Intended Audience :: Developers',      # Define that your audience are developers
-    'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: MIT License',   
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
-    'Programming Language :: Python :: 3.11',
+        'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
+        'Intended Audience :: Developers',      # Define that your audience are developers
+        'Topic :: Software Development :: Build Tools',
+        'License :: OSI Approved :: MIT License',   
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
   ],
 )
