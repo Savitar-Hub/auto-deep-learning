@@ -1,4 +1,4 @@
-from constants import MEAN_CONSTANTS, STD_CONSTANTS
+from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
 import torchvision.transforms as transforms
 
 
