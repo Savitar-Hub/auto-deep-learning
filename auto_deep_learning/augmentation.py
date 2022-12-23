@@ -30,4 +30,19 @@ class ImageTransformer(type):
         self.resized_crop_enabled = resized_crop_enabled
 
 
-    
+    def __repr__(self):
+        repr = f"""ImageTransformer(
+            {self.rotation},
+            {self.resize},
+            {self.resized_crop},
+            {self.horizontal_flip},
+            {self.color_jitter_brightness},
+            {self.color_jitter_saturation},
+            {self.color_jitter_contrast},
+            {self.color_jitter_hue},
+            {self.normalize},
+            {self.resize_enabled},
+            {self.resized_crop_enabled}
+        )"""
+
+        return repr
