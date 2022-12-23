@@ -1,3 +1,4 @@
+from constants import MEAN_CONSTANTS, STD_CONSTANTS
 import torchvision.transforms as transforms
 
 
@@ -7,7 +8,7 @@ class ImageTransformer(type):
         rotation: int = 0,
         resize: int = 224,
         resized_crop: int = 224,
-        horizontal_flip: int = 0,
+        horizontal_flip: bool = False,
         color_jitter_brightness: int = 0,
         color_jitter_saturation: int = 0,
         color_jitter_contrast: int = 0,
@@ -63,3 +64,25 @@ class ImageTransformer(type):
         )"""
 
         return repr_image_transformer
+    
+    def create(self):
+        transformations = [transforms.RandomRotation(self.rotation)]
+        transformations += [transforms.RandomResizedCrop(224)] if self.resize_enabled else []
+        transformations += [transforms.RandomHorizontalFlip()] if self.horizontal_flip else []
+        transformations += [
+            transforms.ColorJitter(
+                saturation=self.color_jitter_saturation, 
+                contrast=self.color_jitter_contrast, 
+                hue=self.color_jitter_hue, 
+                brightness=self.color_jitter_brightness
+            )
+        ]
+        transformations += [transforms.ToTensor()]
+        transformations += [
+            transforms.Normalize(
+                MEAN_CONSTANTS, 
+                STD_CONSTANTS
+            )
+        ]
+            
+        return transformations
