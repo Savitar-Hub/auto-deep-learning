@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name='auto_learning',
+    name='auto_deep_learning',
     version='0.1',
     description='Automation of the creation of the architecture of the neural network based on the input',
-    url='https://github.com/Nil-Andreu/auto-nn',
+    url='https://github.com/Nil-Andreu/auto-deep-learning',
     author='Nil Andreu',
     author_email='nilandreug@email.com',
     keywords=[
@@ -15,8 +15,8 @@ setup(
     ],
     license='MIT',
     packages=[
-        'auto_learning',
-        'auto_learning.test'
+        'auto_deep_learning',
+        'auto_deep_learning.test'
     ],
     zip_safe=False,
     install_requires=[
