@@ -18,4 +18,39 @@ To install the package:
 
 
 ## Basic Usage
-Import model from auto_deep_learning.
+
+### Dataset
+
+The data that it expects is a pd.DataFrame(), where the columns are the following:
+```
+    - image_path: the path to the image
+    - class1: the classification of the class nr. 1. For example: {t-shirt, glasses, ...}
+    - class2: the classification of the class nr. 2. For example: {summer, winter, ...}
+    - ...
+    - split_type: whether it is for training/validation/testing
+```
+For better performance, it is suggested that the classes and the type are of dtype *category* in the pandas DataFrame.
+If the type is not provided in the dataframe, you should use the utils function of *data_split_types* (in *utils.dataset.sampler* file). 
+
+If instead you have the images ordered in the structure of ImageFolder, which is the following structure:
+```
+    train/  
+        class1_value/
+            1.jgp
+            2.jpg
+            ...
+        class2_value/
+            3.jpg
+            4.jpg
+            ...
+    test/
+        class1_value/
+            1.jgp
+            2.jpg
+            ...
+        class2_value/
+            3.jpg
+            4.jpg
+            ...
+```
+For simplifying logic, we have provided a logic that gives you the expected dataframe that we wanted, with the function of *image_folder_convertion* (in *utils.functions*), where it is expecting a path to the parent folder where the *train/* and */test* folders are.
