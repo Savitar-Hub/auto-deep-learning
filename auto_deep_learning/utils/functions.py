@@ -45,6 +45,25 @@ def image_folder_convertion(
         'split_type': 'category'
     }
 ):
+    """
+    Function to make the conversion from the image folder structure to a dataframe that is wanted.
+    
+    Parameters
+    ----------
+    parent_folder_path : str
+        The folder for which we have the ['train', 'test'] folders.
+
+    columns : list
+        The columns that will be used for the dataframe
+    
+    dtypes : dict
+        Dictionary for the column name : column dtype for the dataframe
+    
+    Returns
+    -------
+    df : pd.DataFrame
+        The DataFrame that will be used for organizing the Image Folder information
+    """
 
     # Get the df we will use as the base one 
     df = create_df_image_folder(
@@ -74,15 +93,15 @@ def image_folder_convertion(
 
             # TODO: Asses they are files and of .jpg/png
 
-            class_list = [child_class] * len(images_child_class_path)
-            dtype_list = [split_folder] * len(images_child_class_path)
+            class_list: List[str] = [child_class] * len(images_child_class_path)
+            dtype_list: List[str] = [split_folder] * len(images_child_class_path)
 
             # TODO: This is hardtypping the columns, so not flexible (ImageFolder is not flexible neither)
             df = df.append(
                 pd.DataFrame(
                     data = {
                         'class': class_list,
-                        'split_type': split_folder,
+                        'split_type': dtype_list,
                         'image_path': images_child_class_path,
                 })
             )
@@ -91,7 +110,7 @@ def image_folder_convertion(
     # TODO: Checks once the pandas dataframe created, classes in train = test
 
     
-    pass
+    return df
 
 
 if __name__ == '_main__':
