@@ -29,4 +29,9 @@ class Loader(Dataset):
         return len(self.df)
     
 
+    @property
+    def columns(self) -> List[str]:
+        return self.df.columns.values.tolist()
+    
+
     
