@@ -1,22 +1,25 @@
-from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
+from typing import Optional
+
 import torchvision.transforms as transforms
+
+from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 
 class ImageTransformer(type):
     def __init__(
         self, 
-        rotation: int = 0,
-        resize: int = 224,
-        resized_crop: int = 224,
-        horizontal_flip: bool = False,
-        color_jitter_brightness: int = 0,
-        color_jitter_saturation: int = 0,
-        color_jitter_contrast: int = 0,
-        color_jitter_hue: int = 0,
-        normalize: bool = True,
-        resize_enabled: bool = False,
-        resized_crop_enabled: bool = True,
-        color_jitter_enabled: bool = True
+        rotation: Optional[int] = 0,
+        resize: Optional[int] = 224,
+        resized_crop: Optional[int] = 224,
+        horizontal_flip: Optional[bool] = False,
+        color_jitter_brightness: Optional[int] = 0,
+        color_jitter_saturation: Optional[int] = 0,
+        color_jitter_contrast: Optional[int] = 0,
+        color_jitter_hue: Optional[int] = 0,
+        normalize: Optional[bool] = True,
+        resize_enabled: Optional[bool] = False,
+        resized_crop_enabled: Optional[bool] = True,
+        color_jitter_enabled: Optional[bool] = True
     ):
 
         self.rotation = rotation
@@ -89,4 +92,4 @@ class ImageTransformer(type):
             )
         ]
             
-        return transformations
+        return transforms.Compose(transformations)
