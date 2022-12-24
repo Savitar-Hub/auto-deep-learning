@@ -1,5 +1,9 @@
+import os
 from typing import Optional, List
+from PIL import Image
 
+import torch
+import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
 
@@ -22,6 +26,8 @@ class Loader(Dataset):
         self.class_groups = [
             class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
         ]
+
+        # TODO: Get dummies for each of the classes
 
 
     @property
@@ -47,6 +53,31 @@ class Loader(Dataset):
     
         return self.df[column].unique().tolist()
 
+
+    def __getitem__(
+        self,
+        idx
+    ):
+
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+
+        # Get which is the image path
+        img_path = self.df.at[idx, 'image_path']
+        image = Image.open(img_path)
+
+        # TODO: Based on the class label, get which is the index based on the get_dummies
+        landmarks = self.landmarks_frame.iloc[idx, 1:]
+        landmarks = np.array([landmarks])
+        landmarks = landmarks.astype('float').reshape(-1, 2)
+
+        # TODO: Return as many classes as class that we have
+        sample = {'image': image, 'landmarks': landmarks}
+
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample
     
 
     """
