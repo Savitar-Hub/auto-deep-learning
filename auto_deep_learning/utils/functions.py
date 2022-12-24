@@ -5,7 +5,7 @@ from typing import List, Dict
 
 
 def create_df_image_folder(
-    columns, dtypes
+    columns: List[str], dtypes: Dict[str, str]
 ) -> pd.DataFrame:
     """
     Create the dataframe that will be the base for the image folder dataset.
@@ -105,6 +105,11 @@ def image_folder_convertion(
                         'image_path': images_child_class_path,
                 })
             )
+
+            del images_path
+            del images_child_class_path
+            del class_list
+            del dtype_list
 
     
     # TODO: Checks once the pandas dataframe created, classes in train = test
