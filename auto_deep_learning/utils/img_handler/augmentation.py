@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 from auto_deep_learning.utils.img_handler.constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 
-class ImageTransformer():
+class ImageTransformer:
     def __init__(
         self, 
         rotation: Optional[int] = 0,
