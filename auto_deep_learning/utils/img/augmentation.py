@@ -15,7 +15,8 @@ class ImageTransformer(type):
         color_jitter_hue: int = 0,
         normalize: bool = True,
         resize_enabled: bool = False,
-        resized_crop_enabled: bool = True
+        resized_crop_enabled: bool = True,
+        color_jitter_enabled: bool = True
     ):
 
         self.rotation = rotation
@@ -29,6 +30,7 @@ class ImageTransformer(type):
         self.normalize = normalize
         self.resize_enabled = resize_enabled
         self.resized_crop_enabled = resized_crop_enabled
+        self.color_jitter_enabled = color_jitter_enabled
 
 
     def __str__(self):
@@ -43,7 +45,8 @@ class ImageTransformer(type):
             {self.color_jitter_hue},
             {self.normalize},
             {self.resize_enabled},
-            {self.resized_crop_enabled}
+            {self.resized_crop_enabled},
+            {self.color_jitter_enabled}
         )"""
 
         return str_image_tramsformer
@@ -60,13 +63,14 @@ class ImageTransformer(type):
             {self.color_jitter_hue},
             {self.normalize},
             {self.resize_enabled},
-            {self.resized_crop_enabled}
+            {self.resized_crop_enabled},
+            {self.color_jitter_enabled}
         )"""
 
         return repr_image_transformer
     
     def create(self):
-        transformations = [transforms.RandomRotation(self.rotation)]
+        transformations = [transforms.RandomRotation(self.rotation)] if self.rotation else []
         transformations += [transforms.RandomResizedCrop(224)] if self.resize_enabled else []
         transformations += [transforms.RandomHorizontalFlip()] if self.horizontal_flip else []
         transformations += [
@@ -76,7 +80,7 @@ class ImageTransformer(type):
                 hue=self.color_jitter_hue, 
                 brightness=self.color_jitter_brightness
             )
-        ]
+        ] if self.color_jitter_enabled else []
         transformations += [transforms.ToTensor()]
         transformations += [
             transforms.Normalize(
