@@ -24,4 +24,9 @@ class Loader(Dataset):
         ]
 
 
+    @property
+    def __len__(self) -> int:
+        return len(self.df)
+    
+
     
