@@ -34,4 +34,27 @@ class Loader(Dataset):
         return self.df.columns.values.tolist()
     
 
+    @property
+    def class_groups(self) -> List[List[str]]:
+        return self.class_groups
     
+
+    @property
+    def class_group_unique(
+        self,
+        column: str
+    ) -> List[str]:
+    
+        return self.df[column].unique().tolist()
+
+    
+
+    """
+    If in form of imagefolder, custom one knowing that the folder name is the class.
+        hymenoptera_dataset = datasets.ImageFolder(root='hymenoptera_data/train',
+                                           transform=data_transform)
+        dataset_loader = torch.utils.data.DataLoader(hymenoptera_dataset,
+                                             batch_size=4, shuffle=True,
+                                             num_workers=4)
+    If not, should create the custom one, returning also the classes
+    """
