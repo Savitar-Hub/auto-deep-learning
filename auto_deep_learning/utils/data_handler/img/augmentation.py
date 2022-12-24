@@ -2,7 +2,7 @@ from typing import Optional
 
 import torchvision.transforms as transforms
 
-from auto_deep_learning.utils.img_handler.constants import MEAN_CONSTANTS, STD_CONSTANTS
+from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 
 class ImageTransformer(object):
@@ -37,38 +37,12 @@ class ImageTransformer(object):
 
 
     def __str__(self):
-        str_image_tramsformer = f"""ImageTransformer(
-            {self.rotation},
-            {self.resize},
-            {self.resized_crop},
-            {self.horizontal_flip},
-            {self.color_jitter_brightness},
-            {self.color_jitter_saturation},
-            {self.color_jitter_contrast},
-            {self.color_jitter_hue},
-            {self.normalize},
-            {self.resize_enabled},
-            {self.resized_crop_enabled},
-            {self.color_jitter_enabled}
-        )"""
+        str_image_tramsformer = f"""ImageTransformer({self.rotation}, {self.resize}, {self.resized_crop}, {self.horizontal_flip}, {self.color_jitter_brightness}, {self.color_jitter_saturation}, {self.color_jitter_contrast}, {self.color_jitter_hue}, {self.normalize}, {self.resize_enabled}, {self.resized_crop_enabled}, {self.color_jitter_enabled})"""
 
         return str_image_tramsformer
 
     def __repr__(self) -> str:
-        repr_image_transformer = f"""ImageTransformer(
-            {self.rotation},
-            {self.resize},
-            {self.resized_crop},
-            {self.horizontal_flip},
-            {self.color_jitter_brightness},
-            {self.color_jitter_saturation},
-            {self.color_jitter_contrast},
-            {self.color_jitter_hue},
-            {self.normalize},
-            {self.resize_enabled},
-            {self.resized_crop_enabled},
-            {self.color_jitter_enabled}
-        )"""
+        repr_image_transformer = f"""ImageTransformer({self.rotation}, {self.resize}, {self.resized_crop}, {self.horizontal_flip}, {self.color_jitter_brightness}, {self.color_jitter_saturation}, {self.color_jitter_contrast}, {self.color_jitter_hue}, {self.normalize}, {self.resize_enabled}, {self.resized_crop_enabled}, {self.color_jitter_enabled})"""
 
         return repr_image_transformer
     

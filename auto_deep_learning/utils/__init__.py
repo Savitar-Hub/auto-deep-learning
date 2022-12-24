@@ -1,2 +1,2 @@
 from .data_handler.loader import Loader
-from .img_handler.augmentation import ImageTransformer
+from .data_handler.img.augmentation import ImageTransformer
