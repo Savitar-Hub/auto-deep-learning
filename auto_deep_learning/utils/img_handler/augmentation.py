@@ -2,10 +2,10 @@ from typing import Optional
 
 import torchvision.transforms as transforms
 
-from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
+from auto_deep_learning.utils.img_handler.constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 
-class ImageTransformer(type):
+class ImageTransformer():
     def __init__(
         self, 
         rotation: Optional[int] = 0,

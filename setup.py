@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 try:
     import pypandoc
@@ -22,14 +22,14 @@ classifiers = [
 
 setup(
     name='auto_deep_learning',
-    version='0.1.2',
+    version='0.1.4.6',
     description='Automation of the creation of the architecture of the neural network based on the input',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/Nil-Andreu/auto-deep-learning',
     author='Nil Andreu',
     author_email='nilandreug@email.com',
-    data_files=[('', ['README.md'])],
+    # data_files=[('', ['README.md'])],
     keywords=[
         'deep learning',
         'machine learning',
@@ -38,9 +38,7 @@ setup(
         'neural networks'
     ],
     license='MIT',
-    packages=[
-        'auto_deep_learning',
-    ],
+    packages=find_packages(),
     zip_safe=False,
     install_requires=[
         'torch==1.13.1',
