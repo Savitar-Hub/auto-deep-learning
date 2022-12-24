@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 from auto_deep_learning.utils.img_handler.constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 
-class ImageTransformer:
+class ImageTransformer(object):
     def __init__(
         self, 
         rotation: Optional[int] = 0,
@@ -19,7 +19,7 @@ class ImageTransformer:
         normalize: Optional[bool] = True,
         resize_enabled: Optional[bool] = False,
         resized_crop_enabled: Optional[bool] = True,
-        color_jitter_enabled: Optional[bool] = True
+        color_jitter_enabled: Optional[bool] = False
     ):
 
         self.rotation = rotation
@@ -54,7 +54,7 @@ class ImageTransformer:
 
         return str_image_tramsformer
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         repr_image_transformer = f"""ImageTransformer(
             {self.rotation},
             {self.resize},
@@ -72,7 +72,7 @@ class ImageTransformer:
 
         return repr_image_transformer
     
-    def create(self):
+    def create(self) -> transforms.Compose:
         transformations = [transforms.RandomRotation(self.rotation)] if self.rotation else []
         transformations += [transforms.RandomResizedCrop(224)] if self.resize_enabled else []
         transformations += [transforms.RandomHorizontalFlip()] if self.horizontal_flip else []

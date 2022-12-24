@@ -5,20 +5,21 @@ from PIL import Image
 import torch
 import numpy as np
 import pandas as pd
+
 from torch.utils.data import Dataset
+import torchvision.transforms as transforms
+
 
 # https://pytorch.org/tutorials/beginner/data_loading_tutorial.html
 class Loader(Dataset):
     def __init__(
         self,
-        transformation,
+        transformation: transforms.Compose,
         csv_data_path: Optional[str] = '.',
         df: Optional[pd.DataFrame] = None,
         not_class_info: List[str] = ['image_path', 'split_type']
     ):
         
-        # TODO: Type hint transformation
-        print(type(transformation), 'transformation type')
         self.transformation = transformation
         self.csv_data_path = csv_data_path
         self.df = df if df else pd.read_csv(csv_data_path)
