@@ -3,7 +3,11 @@ import logging
 import pandas as pd
 from typing import List, Dict
 
-from exceptions.data import NoFolderData, ChildFileUnexpected
+from exceptions.data import (
+    NoFolderData, 
+    ChildFileUnexpected, 
+    InvalidFileExtension
+)
 
 
 def create_df_image_folder(
@@ -78,9 +82,7 @@ def image_folder_convertion(
 
     if len(split_folders) == 0:
         raise NoFolderData()
-    
-    # TODO: If only train, should make train/valid/test split
-    
+        
     for split_folder in split_folders:
         # We get the path of .../train and .../test
         split_path: str = parent_folder_path + '/' + split_folder
@@ -103,9 +105,14 @@ def image_folder_convertion(
             images_child_class_path: List[str] = os.listdir(images_path) 
 
             # Check that they have the correct type
-            for image_child_class_path in images_child_class_path:
-                if not image_child_class_path.endswith('.jpg') and not image_child_class_path.endswith('.png'):
-                    raise 
+            for idx, image_child_class_path in enumerate(images_child_class_path):
+                if not image_child_class_path.endswith('.jpg') and \
+                    not image_child_class_path.endswith('.png'):
+
+                    raise InvalidFileExtension(image_path=image_child_class_path)
+                
+                images_child_class_path[idx] = images_path + image_child_class_path
+                
 
             class_list: List[str] = [child_class] * len(images_child_class_path)
             dtype_list: List[str] = [split_folder] * len(images_child_class_path)
@@ -125,9 +132,10 @@ def image_folder_convertion(
             del class_list
             del dtype_list
 
-    
-    # TODO: Checks once the pandas dataframe created, classes in train = test
 
+    # TODO: If only train, should make train/valid/test split
+    # TODO: Checks once the pandas dataframe created, classes in train = test
+    print(df)
     
     return df
 
