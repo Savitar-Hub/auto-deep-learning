@@ -3,6 +3,8 @@ import logging
 import pandas as pd
 from typing import List, Dict
 
+from exceptions.data import NoFolderData, ChildFileUnexpected
+
 
 def create_df_image_folder(
     columns: List[str], dtypes: Dict[str, str]
@@ -71,14 +73,20 @@ def image_folder_convertion(
         dtypes=dtypes
     )
 
-    # We get the folders, which we expect to be ['train', 'test']
+    # We get the folders, which we expect to be ['train', 'valid', 'test']
     split_folders: List[str] = os.listdir(parent_folder_path)
 
-    # TODO: Assess folder structure is correct
+    if len(split_folders) == 0:
+        raise NoFolderData()
+    
+    # TODO: If only train, should make train/valid/test split
     
     for split_folder in split_folders:
         # We get the path of .../train and .../test
         split_path: str = parent_folder_path + '/' + split_folder
+
+        if not os.path.isdir(split_path):
+            raise ChildFileUnexpected(path=split_path)
 
         # List the values that we have inside of each folder, which would be the classes
         children_classes: List[str] = os.listdir(split_path)
@@ -88,23 +96,29 @@ def image_folder_convertion(
             # Get the path of .../train/class
             images_path: str = split_path + '/' + child_class
 
+            if not os.path.isdir(images_path):
+                raise ChildFileUnexpected(path=images_path)
+
             # List the images we have inside that folder
             images_child_class_path: List[str] = os.listdir(images_path) 
 
-            # TODO: Asses they are files and of .jpg/png
+            # Check that they have the correct type
+            for image_child_class_path in images_child_class_path:
+                if not image_child_class_path.endswith('.jpg') and not image_child_class_path.endswith('.png'):
+                    raise 
 
             class_list: List[str] = [child_class] * len(images_child_class_path)
             dtype_list: List[str] = [split_folder] * len(images_child_class_path)
 
             # TODO: This is hardtypping the columns, so not flexible (ImageFolder is not flexible neither)
-            df = df.append(
-                pd.DataFrame(
-                    data = {
-                        'class': class_list,
-                        'split_type': dtype_list,
-                        'image_path': images_child_class_path,
-                })
-            )
+            appended_df = pd.DataFrame(
+                data = {
+                    'class': class_list,
+                    'split_type': dtype_list,
+                    'image_path': images_child_class_path,
+            })
+
+            df = df.append(appended_df)
 
             del images_path
             del images_child_class_path
