@@ -5,8 +5,9 @@ from typing import List, Dict
 
 from exceptions.data import (
     NoFolderData, 
+    InvalidSplitType,
     ChildFileUnexpected, 
-    InvalidFileExtension
+    InvalidFileExtension,
 )
 
 
@@ -82,6 +83,10 @@ def image_folder_convertion(
 
     if len(split_folders) == 0:
         raise NoFolderData()
+    
+    for split_type in split_folders:
+        if split_type not in ['train', 'valid', 'test']:
+            raise InvalidSplitType(invalid_split_name=split_type)
         
     for split_folder in split_folders:
         # We get the path of .../train and .../test
