@@ -34,6 +34,24 @@ class ChildFileUnexpected(Exception):
         super().__init__(self.msg)
 
 
+class InvalidSplitType(Exception):
+    """Invalid Split Type {train, valid, test}
+
+    Args:
+        Exception : the exception class
+    """
+
+    def __init__(
+        self,
+        invalid_split_name: str,
+        msg: str = 'Invalid Split Type'
+    ):
+        self.msg = msg + ': ' + invalid_split_name
+        self.msg += '\nShould be one of: {train, valid, test}'
+
+        super().__init__(self.msg)
+
+
 class InvalidFileExtension(Exception):
     """Found a file that was not an image
 
