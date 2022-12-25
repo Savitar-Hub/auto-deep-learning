@@ -3,6 +3,10 @@
 
 ```auto_deep_learning```: with this package, you will be able to create, train and deploy neural networks automatically based on the input that you provide.
 
+## Alert
+This package is still on development, but Start the Project to know further updates in next days!
+For the moment, would be for computer vision classification tasks on images (multi-modal included).
+
 ## Installation
 Use the package manager [pip](https://pypi.org/project/pip/) to install *auto_deep_learning*.
 
@@ -18,6 +22,17 @@ To install the package:
 
 
 ## Basic Usage
+How easy can be to create and train a deep learning model:
+```{python}
+    from auto_deep_learning import Model
+    from auto_deep_learning.utils import Loader, image_folder_convertion
+
+    df = image_folder_convertion()
+    data = Loader(df)
+    model = Model(data)
+    model.fit()
+```
+
 
 ### Dataset
 
