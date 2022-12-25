@@ -27,13 +27,13 @@ def get_numerical_fields():
     ]
 
 class TestImageAugmentation:
-    # def test_instantiation(self):
-    #     new_transformer = ImageTransformer()
+    def test_instantiation(self):
+        new_transformer = ImageTransformer()
 
-    #     assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
-    #     assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
-    #     assert isinstance(new_transformer, ImageTransformer)
-    """
+        assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
+        assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
+        assert isinstance(new_transformer, ImageTransformer)
+    
     def test_creation_augmentation(self):
         new_transformer_created = ImageTransformer(
             color_jitter_enabled=False
@@ -47,8 +47,6 @@ class TestImageAugmentation:
                 std=[0.229, 0.224, 0.225]
             )
         ]).transforms)
-
-    """
 
     # TODO: Test for invalid arguments
     @pytest.mark.parametrize("idx_test, ", range(7))
@@ -68,7 +66,6 @@ class TestImageAugmentation:
             
             try:
                 ImageTransformer(**numerical_mapping)
-                print('Failed with: ', numerical_mapping)
 
             except InvalidArgumentType:
                 assert True
