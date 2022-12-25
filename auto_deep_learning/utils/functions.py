@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 from typing import List, Dict
 
-from exceptions.data import (
+from auto_deep_learning.utils.exceptions.data_handler.loader import (
     NoFolderData, 
     InvalidSplitType,
     ChildFileUnexpected, 
