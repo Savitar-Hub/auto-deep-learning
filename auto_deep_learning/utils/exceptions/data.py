@@ -32,3 +32,20 @@ class ChildFileUnexpected(Exception):
 
         self.msg = msg + ': ' + path
         super().__init__(self.msg)
+
+
+class InvalidFileExtension(Exception):
+    """Found a file that was not an image
+
+    Args:
+        Exception : the exception class
+    """
+
+    def __init__(
+        self,
+        image_path: str,
+        msg: str = 'Found file that is not an image extension supported'
+    ):
+
+        self.msg = msg + ': ' + image_path
+        super().__init__(self.msg)
