@@ -23,7 +23,7 @@ To install the package:
 
 ## Basic Usage
 How easy can be to create and train a deep learning model:
-```{python}
+```python
     from auto_deep_learning import Model
     from auto_deep_learning.utils import Loader, image_folder_convertion
 
@@ -31,6 +31,7 @@ How easy can be to create and train a deep learning model:
     data = Loader(df)
     model = Model(data)
     model.fit()
+    model.predict('image.jpg')
 ```
 
 

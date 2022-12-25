@@ -40,7 +40,7 @@ def create_df_image_folder(
 
 
 def image_folder_convertion(
-    parent_folder_path: str,
+    parent_folder_path: str = '/images',
     columns: List[str] = [
         'image_path',
         'class',
