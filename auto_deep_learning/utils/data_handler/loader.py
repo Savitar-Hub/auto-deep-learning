@@ -15,15 +15,15 @@ class Loader(Dataset):
     def __init__(
         self,
         transformation: transforms.Compose,
-        csv_data_path: Optional[str] = '.',
+        csv_data_path: Optional[str] = 'data.csv',
         df: Optional[pd.DataFrame] = None,
-        not_class_info: List[str] = ['image_path', 'split_type']
+        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constans
+        sampler_activated: Optional[bool] = False
     ):
         
         self.transformation = transformation
         self.csv_data_path = csv_data_path
         self.df = df if df else pd.read_csv(csv_data_path)
-
         self.class_groups = [
             class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
         ]
@@ -45,6 +45,11 @@ class Loader(Dataset):
     def class_groups(self) -> List[List[str]]:
         return self.class_groups
     
+
+    @property
+    def class_group_num(self) -> int:
+        return len(self.class_groups)
+
 
     @property
     def class_group_unique(
@@ -90,3 +95,34 @@ class Loader(Dataset):
                                              num_workers=4)
     If not, should create the custom one, returning also the classes
     """
+
+
+class DataLoders:
+    def __init__(
+        self,
+        transformation: transforms.Compose,
+        csv_data_path: Optional[str] = 'data.csv',
+        df: Optional[pd.DataFrame] = None,
+        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constans
+        sampler_activated: Optional[bool] = False
+    ):
+
+        self.transformation = transformation
+        self.csv_data_path = csv_data_path
+        self.sampler_activated = sampler_activated
+        self.df = df if df else pd.read_csv(csv_data_path)
+
+        self.class_groups = [
+            class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
+        ]
+    
+
+    @classmethod
+    def get_loaders(
+        self,
+    ):
+        # TODO: upsapler/downsampler depending if is activated
+        if self.sampler_activated:
+            pass
+    
+        
