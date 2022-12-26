@@ -12,15 +12,28 @@ from auto_deep_learning.utils.functions import (
     create_df_image_folder, 
     image_folder_convertion
 )
+from auto_deep_learning.exceptions.functions import IncorrectFolderStructure
 
 
 BASE_DIR = './tests/utils'
 CHILD_DIR = ['train', 'test', 'valid']  # TODO: As constants, which are the allowed split types -> Schemas Enum.
 
 
+def remove_test_dir():
+    """Remove all the images that are previously in the images folder."""
+
+    for child in CHILD_DIR:
+        child_path = BASE_DIR + '/images/' + child
+
+        if os.path.exists(child_path) and \
+            os.path.isdir(child_path):
+
+            shutil.rmtree(child_path)
+
 @pytest.fixture()
 def fill_images():
     """Convert the binary files into the images that we want"""
+    remove_test_dir()
 
     for child in CHILD_DIR:
         child_path_raw = BASE_DIR + '/raw_images/' + child
@@ -45,25 +58,13 @@ def fill_images():
                     f.write(png_encoded)
 
 
-
-
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
     """
     Remove the images directory once it is finished
     """
     
-    def remove_test_dir():
-        for child in CHILD_DIR:
-            child_path = BASE_DIR + '/images/' + child
-
-            if os.path.exists(child_path) and \
-                os.path.isdir(child_path):
-
-                shutil.rmtree(child_path)
-
     request.addfinalizer(remove_test_dir)
-
 
 
 class TestCreateDfImageFolder:
@@ -117,5 +118,37 @@ class TestImageFolderConvertion:
         for idx, row in df.iterrows():
             if not row['image_path'].endswith('.jpg'):
                 assert False
+    
 
-        print(df)
+    def test_no_images_folder(
+        self
+    ):
+        remove_test_dir()
+
+        try:
+            image_folder_convertion('./tests/utils/images')
+            assert False
+
+        except IncorrectFolderStructure:
+            assert True
+    
+
+    def test_imbalanced_classes(
+        self,
+        fill_images
+    ):
+        """
+        Test to check that we need to have the same number of unique classes in both train/valid/test.
+
+        Args:
+            fill_images (function): fill the images folder with certain images
+        """
+
+        # We remove a certain class
+        shutil.rmtree('./tests/utils/images/test/ADONIS')
+
+        try:
+            df = image_folder_convertion('./tests/utils/images')
+        
+        except:
+            assert True
