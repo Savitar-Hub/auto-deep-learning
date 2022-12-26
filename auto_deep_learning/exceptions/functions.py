@@ -14,6 +14,7 @@ class IncorrectFolderStructure(Exception):
 
         super().__init__(self.msg)
 
+
 class ImbalancedClassError(Exception):
     """Error when we have some classes that are not on the other split types."""
     
