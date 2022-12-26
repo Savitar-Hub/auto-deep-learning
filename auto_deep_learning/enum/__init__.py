@@ -1,1 +1,4 @@
-from model import ModelObjective
+from model import (
+    ModelObjective, 
+    ModelName
+)
