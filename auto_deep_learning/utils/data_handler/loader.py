@@ -1,10 +1,10 @@
 import os
-from typing import Optional, List
-from PIL import Image
+from typing import Optional, List, Dict
 
 import torch
 import numpy as np
 import pandas as pd
+from PIL import Image
 
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
@@ -14,19 +14,14 @@ import torchvision.transforms as transforms
 class Loader(Dataset):
     def __init__(
         self,
+        df: pd.DataFrame,
+        class_groups: List[str],
         transformation: transforms.Compose,
-        csv_data_path: Optional[str] = 'data.csv',
-        df: Optional[pd.DataFrame] = None,
-        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constans
-        sampler_activated: Optional[bool] = False
     ):
-        
+
+        self.df = df     
         self.transformation = transformation
-        self.csv_data_path = csv_data_path
-        self.df = df if df else pd.read_csv(csv_data_path)
-        self.class_groups = [
-            class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
-        ]
+        self.class_groups = class_groups
 
         # TODO: Get dummies for each of the classes
 
@@ -97,7 +92,7 @@ class Loader(Dataset):
     """
 
 
-class DataLoders:
+class DataLoaders:
     def __init__(
         self,
         transformation: transforms.Compose,
@@ -120,9 +115,22 @@ class DataLoders:
     @classmethod
     def get_loaders(
         self,
-    ):
+    ) -> Dict[str, Loader]:
+
         # TODO: upsapler/downsampler depending if is activated
         if self.sampler_activated:
             pass
+    
+        dict_loader = {}
+        for split_type in self.df['split_tupe'].unique().tolist():
+            dict_loader[split_type] = Loader(
+                df=self.df,
+                class_groups=self.class_groups,
+                transformation=self.transformation,
+            )
+        
+        return dict_loader
+
+
     
         
