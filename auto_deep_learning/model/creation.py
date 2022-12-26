@@ -11,18 +11,43 @@ The training of the model:
 from typing import Optional
 from auto_deep_learning.enum import (
     ModelObjective,
-    ModelName,
-    ModelVersion
+    ModelName
 )
 from auto_deep_learning.utils import Loader
+from auto_deep_learning.model.creation import define_model
 
 
 class Model:
     def __init__(
         self,
         data: Loader,
-        objective: Optional[ModelObjective] = None,
-        model_name: Optional[ModelName] = None,
-        model_version: Optional[str] = None
+        description: Optional[str] = '',
+        objective: Optional[ModelObjective] = 'throughput',
+        model_name: Optional[ModelName] = '',
+        model_version: Optional[str] = ''
     ):
-        pass
+        """Instance of the Neural Network model.
+
+        Args:
+            data (Loader): the loader of the data that will be used
+            description (Optional[str], optional): short description of which task do you want to do. Defaults to None.
+            objective (Optional[ModelObjective], optional): definition of which is the objective. Defaults to throughput, as are the simpler and optimized for production environments.
+            model_name (Optional[ModelName], optional): definition of which is the model name (from HuggingFace). 
+            model_version (Optional[str], optional): definition of which is the model version (from HuggingFace).
+        """
+        
+        self.data = data
+        self.objective = objective
+        self.model_name = model_name
+        self.description = description
+        self.model_version = model_version
+
+        self.model = define_model(
+            data=self.data,
+            description=self.description,
+            objective=self.objective,
+            model_name=self.model_name,
+            model_version=self.model_version
+        )
+
+        
