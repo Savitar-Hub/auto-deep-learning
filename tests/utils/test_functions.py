@@ -96,4 +96,26 @@ class TestImageFolderConvertion:
         fill_images,
     ):
 
-        pass
+        df = image_folder_convertion('./tests/utils/images')
+
+        assert not df.empty
+        assert df.shape == (105, 3)
+        assert set(df['split_type'].unique()) == {
+            'test', 
+            'valid', 
+            'train'
+        }
+
+        assert set(df['class'].unique()) == {
+            'ADONIS', 
+            'CRECENT', 
+            'ZEBRA LONG WING', 
+            'RED SPOTTED PURPLE', 
+            'GREY HAIRSTREAK'
+        }
+
+        for idx, row in df.iterrows():
+            if not row['image_path'].endswith('.jpg'):
+                assert False
+
+        print(df)
