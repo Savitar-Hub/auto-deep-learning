@@ -1,9 +1,12 @@
 import os
 import shutil
 import pytest
+import base64
 from typing import List, Dict
 
+import numpy as np
 import pandas as pd
+from PIL import Image
 
 from auto_deep_learning.utils.functions import (
     create_df_image_folder, 
@@ -11,8 +14,37 @@ from auto_deep_learning.utils.functions import (
 )
 
 
-BASE_DIR = './tests/utils/images'
-CHILD_DIR = ['train', 'test', 'valid']
+BASE_DIR = './tests/utils'
+CHILD_DIR = ['train', 'test', 'valid']  # TODO: As constants, which are the allowed split types -> Schemas Enum.
+
+
+@pytest.fixture()
+def fill_images():
+    """Convert the binary files into the images that we want"""
+
+    for child in CHILD_DIR:
+        child_path_raw = BASE_DIR + '/raw_images/' + child
+        child_path_clean = BASE_DIR + '/images/' + child
+
+        for img_class in os.listdir(child_path_raw):
+            images_path = child_path_raw + '/' + img_class
+
+            for img in os.listdir(images_path):
+                img_path = images_path + '/' + img
+
+                # Open the binary libraries and read them
+                with open(img_path, "rb") as f:
+                    png_encoded = base64.b64decode(f.read())
+        
+                # Write them in the new location
+                output_path = child_path_clean + '/' + img_class 
+                os.makedirs(output_path, exist_ok=True)
+                
+                output_file = output_path + '/' + img[:-3] + 'jpg'
+                with open(output_file, 'wb') as f:
+                    f.write(png_encoded)
+
+
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -23,7 +55,7 @@ def cleanup(request):
     
     def remove_test_dir():
         for child in CHILD_DIR:
-            child_path = BASE_DIR + '/' + child
+            child_path = BASE_DIR + '/images/' + child
 
             if os.path.exists(child_path) and \
                 os.path.isdir(child_path):
@@ -31,6 +63,7 @@ def cleanup(request):
                 shutil.rmtree(child_path)
 
     request.addfinalizer(remove_test_dir)
+
 
 
 class TestCreateDfImageFolder:
@@ -59,12 +92,8 @@ class TestCreateDfImageFolder:
 
 class TestImageFolderConvertion:
     def test_creation_df(
-        self
+        self,
+        fill_images,
     ):
-        for child in CHILD_DIR:
-            child_path = BASE_DIR + '/' + child
 
-            os.mkdir(child_path)
-        
-
-        
+        pass
