@@ -6,7 +6,7 @@ from auto_deep_learning.utils import DataCreator
 # Set a random seed in numpy
 np.random.seed(0)
 
-class DataSetSampler():
+class DatasetSampler():
     def __init__(
         self,
         data_creator: DataCreator,
