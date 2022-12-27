@@ -1,5 +1,8 @@
 import torch.nn as nn
 from torch import optim
 
-def get_optimizer(model):
-    return optim.Adam(model.parameters(), lr=0.0003)
+def get_optimizer(
+    model,
+    lr
+):
+    return optim.Adam(model.parameters(), lr=lr)
