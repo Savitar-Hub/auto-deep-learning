@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 class IncorrectFolderStructure(Exception):
     """Expected folders of train/valid/test."""
@@ -24,4 +24,15 @@ class ImbalancedClassError(Exception):
     ):
 
         self.msg = msg
+        super().__init__(self.msg)
+
+
+class InvalidFileType(Exception):
+    def __init__(
+        self, 
+        file: Optional[str],
+        msg: str = 'Invalid file type found'
+    ) -> None:
+
+        self.msg = str(msg + ': ' + file) if file else msg
         super().__init__(self.msg)
