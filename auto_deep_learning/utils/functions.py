@@ -5,7 +5,8 @@ from typing import List, Dict
 
 from auto_deep_learning.exceptions.utils.functions import (
     ImbalancedClassError, 
-    IncorrectFolderStructure
+    IncorrectFolderStructure,
+    InvalidFileType
 )
 
 
@@ -114,7 +115,11 @@ def image_folder_convertion(
             # List the images we have inside that folder
             images_child_class_path: List[str] = os.listdir(images_path) 
 
-            # TODO: Asses they are files and of .jpg/png
+            for idx, file in enumerate(images_child_class_path):
+                if not file.endswith('.jpg') or file.endswith('.png'):
+                    raise InvalidFileType(file=file)
+
+                images_child_class_path[idx] = images_path + file
 
             class_list: List[str] = [child_class] * len(images_child_class_path)
             dtype_list: List[str] = [split_folder] * len(images_child_class_path)
@@ -140,7 +145,6 @@ def image_folder_convertion(
     
     # Checks once the pandas dataframe created, classes in train = test
     unique_per_class = df.groupby('split_type')['class'].unique()
-    print(unique_per_class)
 
     unique_per_class_test = list(set(unique_per_class[0]))
     unique_per_class_train = list(set(unique_per_class[1]))
@@ -152,7 +156,7 @@ def image_folder_convertion(
         len(unique_per_class_train),
         len(unique_per_class_valid)
     )):
-        print(idx, unique_per_class_test, unique_per_class_train, unique_per_class_valid)
+
         try:
             if not unique_per_class_test[idx] == unique_per_class_train[idx] == unique_per_class_valid[idx]:
                 raise ImbalancedClassError()
@@ -160,5 +164,4 @@ def image_folder_convertion(
         except IndexError:
             raise ImbalancedClassError()
 
-    
     return df
