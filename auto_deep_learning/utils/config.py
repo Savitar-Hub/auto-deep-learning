@@ -1,3 +1,6 @@
-import torch
+# For batch processing
+BATCH_SIZE = 64
 
-CUDA_AVAILABLE = torch.cuda.is_available()
+# Train/Valid/Test Split
+TEST_SIZE = 0.05
+VALID_SIZE = 0.1
