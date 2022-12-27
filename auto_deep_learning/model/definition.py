@@ -7,6 +7,7 @@ from auto_deep_learning.enum import (
     ModelName
 )
 from auto_deep_learning.utils import DatasetSampler
+from auto_deep_learning.utils.functions import check_numerical_value
 from auto_deep_learning.exceptions.model import (
     IncorrectCategoryType
 )
@@ -35,7 +36,6 @@ def get_category_similarity(
     )
 
     return cosine_scores
-
 
 
 def define_model(
@@ -71,10 +71,16 @@ def define_model(
 
         return model
 
-    if len(category_type.split(' ')) > 0:
+    if len(category_type.split(' ')) > 1:
         raise IncorrectCategoryType(
             category_type=category_type,
             msg='Should be only one word'
+        )
+    
+    if check_numerical_value(category_type=category_type):
+        raise IncorrectCategoryType(
+            category_type=category_type,
+            msg='Category type should not contain numerical values'
         )
 
     category_similarity: float = get_category_similarity(
