@@ -11,6 +11,7 @@ from typing import Optional
 
 import torch
 import numpy as np
+from torchsummary import summary
 
 from auto_deep_learning.enum import (
     ModelObjective,
@@ -19,10 +20,11 @@ from auto_deep_learning.enum import (
 )
 from auto_deep_learning.utils import Loader
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
-from auto_deep_learning.model.creation import define_model
+from auto_deep_learning.model.definition import define_model
 from auto_deep_learning.model.inference import inference
 
 
+# TODO: Save also the whole model (both in gpu and cpu) and load the whole model (without predefinition of the arch)
 class Model:
     def __init__(
         self,
@@ -30,7 +32,8 @@ class Model:
         description: Optional[str] = '',
         objective: Optional[ModelObjective] = 'throughput',
         model_name: Optional[ModelName] = '',
-        model_version: Optional[str] = ''
+        model_version: Optional[str] = '',
+        input_shape: Optional[int] = 224, # TODO: Default input shape of 224, but could be nice to accept other sizes
     ):
         """Instance of the Neural Network model.
 
@@ -47,13 +50,15 @@ class Model:
         self.model_name = model_name
         self.description = description
         self.model_version = model_version
+        self.input_shape = input_shape
 
         self.model = define_model(
             data=self.data,
             description=self.description,
             objective=self.objective,
             model_name=self.model_name,
-            model_version=self.model_version
+            model_version=self.model_version,
+            input_shape=self.input_shape # TODO: Adapt to different input shapes
         )
 
         self.criterion = get_criterion()
@@ -211,3 +216,12 @@ class Model:
         )
 
         return output_inference
+    
+
+    @classmethod
+    def model_parameters(
+        self
+    ):
+        # TODO: Use log instead
+        print(summary(self.model, (self.input_shape)))
+

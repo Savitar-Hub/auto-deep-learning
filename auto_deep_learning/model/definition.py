@@ -39,11 +39,12 @@ def get_category_similarity(
 
 
 def define_model(
-    data: DatasetSampler,
+    data: DatasetSampler,  # TODO: Model adapts to this
     category_type: Optional[str] = '',
     objective: Optional[ModelObjective] = 'throughput',
     model_name: Optional[ModelName] = '',
-    model_version: Optional[str] = ''
+    model_version: Optional[str] = '',
+    input_shape: Optional[int] = 224  # TODO: Model adapts to this
 ):
     """Definition of which will be the final model
 
