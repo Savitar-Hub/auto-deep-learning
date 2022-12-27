@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 from typing import List, Dict
 
-from auto_deep_learning.exceptions.functions import (
+from auto_deep_learning.exceptions.utils.functions import (
     ImbalancedClassError, 
     IncorrectFolderStructure
 )
