@@ -4,6 +4,7 @@ upload:
 		python3 setup.py sdist bdist_wheel 
 		twine check dist/*
 		twine upload dist/*
+# TODO: Upload with also a tag of the GH repo
 
 # Make the testing of the package
 test:
