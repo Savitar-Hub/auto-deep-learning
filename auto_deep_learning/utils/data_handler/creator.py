@@ -21,8 +21,10 @@ class Creator(Dataset):
         self.df = df     
         self.transformation = transformation
         self.class_groups = class_groups
-
-        # TODO: Get dummies for each of the classes
+        
+        self.df_dummies = {}
+        for class_group in class_groups:
+            self.df_dummies[class_group] = pd.get_dummies(df, class_group)
 
 
     @property
@@ -34,14 +36,14 @@ class Creator(Dataset):
     def columns(self) -> List[str]:
         return self.df.columns.values.tolist()
     
-    @property
+    """@property
     def class_groups_list(self) -> List[List[str]]:
         return self.class_groups
     
 
     @property
     def class_group_num(self) -> int:
-        return len(self.class_groups)
+        return len(self.class_groups)"""
 
 
     @property
@@ -62,32 +64,24 @@ class Creator(Dataset):
             idx = idx.tolist()
 
         # Get which is the image path
-        img_path = self.df.at[idx, 'image_path']
+        img_path = self.df.iloc[idx, 0]
         image = Image.open(img_path)
 
-        # TODO: Based on the class label, get which is the index based on the get_dummies
-        landmarks = self.landmarks_frame.iloc[idx, 1:]
-        landmarks = np.array([landmarks])
-        landmarks = landmarks.astype('float').reshape(-1, 2)
+        class_groups_index = {}
+        for class_group in self.class_groups:            
+            # Get positional index and convert into tensor
+            class_groups_index[class_group] = torch.tensor(
+                list(self.df_dummies[class_group].iloc[idx]).index(1),
+            )
+        
+        # Return as many classes as class that we have, as well as the image
+        sample = [image, class_groups_index]
 
-        # TODO: Return as many classes as class that we have
-        sample = {'image': image, 'landmarks': landmarks}
-
-        if self.transform:
-            sample = self.transform(sample)
+        # If we have transformations, apply it
+        if self.transformation:
+            sample[0] = self.transformation(sample[0])
 
         return sample
-    
-
-    """
-    If in form of imagefolder, custom one knowing that the folder name is the class.
-        hymenoptera_dataset = datasets.ImageFolder(root='hymenoptera_data/train',
-                                           transform=data_transform)
-        dataset_loader = torch.utils.data.DataLoader(hymenoptera_dataset,
-                                             batch_size=4, shuffle=True,
-                                             num_workers=4)
-    If not, should create the custom one, returning also the classes
-    """
 
 
 class DataCreator:
@@ -96,12 +90,11 @@ class DataCreator:
         transformation: transforms.Compose,
         csv_data_path: Optional[str] = 'data.csv',
         df: Optional[pd.DataFrame] = None,
-        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constans
+        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constants
         sampler_activated: Optional[bool] = False
     ):
 
         self.transformation = transformation
-        self.csv_data_path = csv_data_path
         self.sampler_activated = sampler_activated
         self.df = df if df else pd.read_csv(csv_data_path)
 
@@ -115,7 +108,7 @@ class DataCreator:
         self,
     ) -> Dict[str, Creator]:
 
-        # TODO: upsapler/downsampler depending if is activated
+        # TODO: upsapler/downsampler depending if is activated, with seed
         if self.sampler_activated:
             pass
 
