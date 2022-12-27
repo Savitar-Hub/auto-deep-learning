@@ -34,9 +34,8 @@ class Creator(Dataset):
     def columns(self) -> List[str]:
         return self.df.columns.values.tolist()
     
-
     @property
-    def class_groups(self) -> List[List[str]]:
+    def class_groups_list(self) -> List[List[str]]:
         return self.class_groups
     
 
