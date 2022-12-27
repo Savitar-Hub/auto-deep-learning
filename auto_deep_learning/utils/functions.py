@@ -89,6 +89,8 @@ def image_folder_convertion(
         The DataFrame that will be used for organizing the Image Folder information
     """
 
+    # TODO: Assess parent_folder str has not trailing /
+
     # Get the df we will use as the base one 
     df = create_df_image_folder(
         columns=columns,
@@ -125,7 +127,7 @@ def image_folder_convertion(
                 if not file.endswith('.jpg') or file.endswith('.png'):
                     raise InvalidFileType(file=file)
 
-                images_child_class_path[idx] = images_path + file
+                images_child_class_path[idx] = images_path + '/' + file
 
             class_list: List[str] = [child_class] * len(images_child_class_path)
             dtype_list: List[str] = [split_folder] * len(images_child_class_path)
