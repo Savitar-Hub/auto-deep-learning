@@ -46,6 +46,7 @@ setup(
         'torchaudio==0.13.1',
         'transformers==4.25.1',
         'sentence-transformers==2.2.2',
+        'torchsummary==1.5.1',
         'pytest'
     ],
     classifiers=classifiers,
