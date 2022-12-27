@@ -14,11 +14,13 @@ import numpy as np
 
 from auto_deep_learning.enum import (
     ModelObjective,
-    ModelName
+    ModelName, 
+    OptimizerType
 )
 from auto_deep_learning.utils import Loader
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
 from auto_deep_learning.model.creation import define_model
+from auto_deep_learning.model.inference import inference
 
 
 class Model:
@@ -58,12 +60,13 @@ class Model:
 
 
     @classmethod
-    def train(
+    def fit(
         self,
-        lr: int,  # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
-        n_epochs: int,  # TODO: Create function for default lr 
-        use_cuda: bool = torch.cuda.is_available(),
-        save_path: str = 'model.pt'
+        lr: Optional[int],  # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
+        n_epochs: Optional[int] = 10,  # TODO: Create function for default lr 
+        use_cuda: Optional[bool] = torch.cuda.is_available(),
+        save_path: Optional[str] = 'model.pt',
+        optimizer: Optional[OptimizerType] = 'cross-entropy'
     ):
         """Train of the model
 
@@ -122,6 +125,7 @@ class Model:
                     # Add this loss to the list (same as before but instead of train we use valid)
                     valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data.item() - valid_loss))
 
+                # TODO: Use logger instead of prints
                 # print training/validation statistics 
                 print('Epoch: {} \tTraining Loss: {:.6f} \tValidation Loss: {:.6f}'.format(
                     epoch, 
@@ -195,4 +199,15 @@ class Model:
 
         self.model = default_weight_init(self.model)
 
-        
+
+    @classmethod
+    def predict(
+        self,
+        img_path: str = 'predict.img'
+    ):
+        output_inference = inference(
+            self.model,
+            img_path=img_path
+        )
+
+        return output_inference
