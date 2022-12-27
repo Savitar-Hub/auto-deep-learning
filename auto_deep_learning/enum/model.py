@@ -1,3 +1,9 @@
+class OptimizerType(Enum):
+    sgd = 'sgd'
+    cross_entropy = 'cross-entropy'
+    
+    
+
 class ModelObjective(Enum):
     """Define which is the model objective
     If you want to make research, it is recommended to use for accuracy.
