@@ -9,7 +9,7 @@ from auto_deep_learning.exceptions.utils.functions import (
 )
 
 
-def chec_numerical_value(
+def check_numerical_value(
     category_type: str
 ):  
     """Check if inside a string we have a numerical value.
