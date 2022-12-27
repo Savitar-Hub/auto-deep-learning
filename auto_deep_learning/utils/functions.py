@@ -9,6 +9,19 @@ from auto_deep_learning.exceptions.utils.functions import (
 )
 
 
+def chec_numerical_value(
+    category_type: str
+):  
+    """Check if inside a string we have a numerical value.
+    This is becasue in the category_type provided to our model object, must only have characters.
+
+    Args:
+        category_type (str): the category type of the dataset
+    """
+
+    return any(char.isdigit() for char in category_type)
+
+
 def create_df_image_folder(
     columns: List[str], dtypes: Dict[str, str]
 ) -> pd.DataFrame:
