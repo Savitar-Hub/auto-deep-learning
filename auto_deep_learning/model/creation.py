@@ -17,7 +17,7 @@ from auto_deep_learning.enum import (
     ModelName
 )
 from auto_deep_learning.utils import Loader
-from auto_deep_learning.utils.model import get_criterion, get_optimizer
+from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
 from auto_deep_learning.model.creation import define_model
 
 
@@ -54,20 +54,33 @@ class Model:
             model_version=self.model_version
         )
 
-        self.optimizer = get_optimizer(self.model)
         self.criterion = get_criterion()
 
 
     @classmethod
     def train(
         self,
-        n_epochs,
+        lr: int,  # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
+        n_epochs: int,  # TODO: Create function for default lr 
         use_cuda: bool = torch.cuda.is_available(),
         save_path: str = 'model.pt'
     ):
+        """Train of the model
+
+        Args:
+            lr (int): the learning rate of the optimizer
+            n_epochs (int): number of epochs that we will train
+            use_cuda (bool, optional): whether we train the model in cuda. Defaults to torch.cuda.is_available().
+            save_path (str, optional): the path to save the best model. Defaults to 'model.pt'.
+
+        Returns:
+            _type_: _description_
+            
+        """
 
         # initialize tracker for minimum validation loss
         valid_loss_min = np.Inf 
+        optimizer = get_optimizer(self.model, lr)
 
         for epoch in range(1, n_epochs+1):
             # initialize variables to monitor training and validation loss
@@ -79,17 +92,18 @@ class Model:
             for batch_idx, (data, target) in enumerate(self.data['train']):
                 # move to GPU
                 if use_cuda:
+                    # TODO: Multiple targets and data (for now data is only img)
                     data, target = data.cuda(), target.cuda()
 
-                self.optimizer.zero_grad()
+                optimizer.zero_grad()
                 # Obtain the output from the model
-                output = self.model(data)
+                output = self.model(data) # TODO: Multiple outputs, and each of them needs to be compared to the target
                 # Obtain loss
-                loss = self.criterion(output, target)
+                loss = self.criterion(output, target) # TODO: Then sum all the losses
                 # Backward induction
                 loss.backward()
                 # Perform optimization step
-                self.optimizer.step()  
+                optimizer.step()  
 
                 train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data.item() - train_loss))
 
@@ -127,4 +141,58 @@ class Model:
                     valid_loss_min = valid_loss
             
         return self.model
+    
+
+    @classmethod
+    def test(
+        self,
+        use_cuda: bool = torch.cuda.is_available()
+    ):
+        # monitor test loss and accuracy
+        test_loss = 0.
+        correct = 0.
+        total = 0.
+
+        # set the module to evaluation mode
+        self.model.eval()
+
+        if loader_test := self.data.get('test'):
+            for batch_idx, (data, target) in enumerate(loader_test):
+                # move to GPU
+                if use_cuda:
+                    data, target = data.cuda(), target.cuda()
+
+                # forward pass: compute predicted outputs by passing inputs to the model
+                output = self.model(data)
+
+                # calculate the loss
+                loss = self.criterion(output, target)
+
+                # update average test loss 
+                test_loss = test_loss + ((1 / (batch_idx + 1)) * (loss.data.item() - test_loss))
+
+                # convert output probabilities to predicted class
+                pred = output.data.max(1, keepdim=True)[1]
+
+                # compare predictions to true label
+                correct += np.sum(np.squeeze(pred.eq(target.data.view_as(pred))).cpu().numpy())
+
+                total += data.size(0)
+                    
+        print('Test Loss: {:.6f}\n'.format(test_loss))
+
+        print('\nTest Accuracy: %2d%% (%2d/%2d)' % (
+            100. * correct / total, 
+            correct, 
+            total)
+        )
+
+    
+    @classmethod
+    def reset(
+        self
+    ):
+
+        self.model = default_weight_init(self.model)
+
         
