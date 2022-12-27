@@ -61,7 +61,10 @@ def image_folder_convertion(
         'image_path': 'object',
         'class': 'category',
         'split_type': 'category'
-    }
+    },
+    save: bool = False,
+    save_path: str = 'data.csv'
+
 ):
     """
     Function to make the conversion from the image folder structure to a dataframe that is wanted.
@@ -76,6 +79,9 @@ def image_folder_convertion(
     
     dtypes : dict
         Dictionary for the column name : column dtype for the dataframe
+    
+    save : bool
+        If we want to save the dataframe that we get
     
     Returns
     -------
@@ -164,4 +170,7 @@ def image_folder_convertion(
         except IndexError:
             raise ImbalancedClassError()
 
+    if save:
+        df.to_csv(save_path, index=False, header=True)
+        
     return df
