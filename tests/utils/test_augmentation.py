@@ -3,7 +3,7 @@ import torchvision.transforms as transforms
 from pydantic import ValidationError
 
 from auto_deep_learning.utils import ImageTransformer
-from auto_deep_learning.utils.exceptions.data_handler import (
+from auto_deep_learning.exceptions.utils import (
     InvalidArgumentType,
     InconsistentInput
 )

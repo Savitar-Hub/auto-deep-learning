@@ -12,7 +12,7 @@ from auto_deep_learning.utils.functions import (
     create_df_image_folder, 
     image_folder_convertion
 )
-from auto_deep_learning.exceptions.functions import IncorrectFolderStructure
+from auto_deep_learning.exceptions.utils.functions import IncorrectFolderStructure
 
 
 BASE_DIR = './tests/utils'
