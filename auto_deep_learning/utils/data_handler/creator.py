@@ -18,17 +18,20 @@ class Creator(Dataset):
         transformation: transforms.Compose,
     ):
 
+        # TODO: Use _ for internal variables
         self.df = df     
         self.transformation = transformation
         self.class_groups = class_groups
         
-        self.df_dummies = {}
-        for class_group in class_groups:
-            self.df_dummies[class_group] = pd.get_dummies(
-                pd.DataFrame(df.loc[:, class_group]), 
-                columns=[class_group]
-            )
+        # TODO: Get index and class map
 
+        # TODO: Make them as properties
+        self.df_dummies = {}
+        self.dict_mapping_idx_class = {}
+        # Get the dummies & and mapping idx-class_value  for that class group
+        for class_group in self.class_groups:
+            self.__get_dummies_df(class_group)
+            self.__get_dummies_mapping(class_group)
 
     @property
     def __len__(self) -> int:
@@ -38,7 +41,38 @@ class Creator(Dataset):
     @property
     def columns(self) -> List[str]:
         return self.df.columns.values.tolist()
+
+
+    def __get_dummies_df(
+        self,
+        class_group: str
+    ) -> pd.DataFrame:
+
+        dummy_df: pd.DataFrame = pd.get_dummies(
+            pd.DataFrame(self.df.loc[:, class_group]), 
+            columns=[class_group],
+            prefix='',
+            prefix_sep=''
+        )
+
+        self.df_dummies[class_group] = dummy_df
+
+        return dummy_df
+
     
+    def __get_dummies_mapping(
+        self,
+        class_group: str
+    ) -> Dict[str, Dict[str, str]]:
+
+        # For that class group, get which are the columns in the dummmies and create the mapping between idx and class name
+        self.dict_mapping_idx_class[class_group] = {}
+
+        for idx, class_value in enumerate(self.df_dummies[class_group].columns.values):
+            self.dict_mapping_idx_class[class_group][str(idx)] = class_value
+        
+        return self.dict_mapping_idx_class
+
     """@property
     def class_groups_list(self) -> List[List[str]]:
         return self.class_groups
@@ -96,6 +130,17 @@ class DataCreator:
         not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constants
         sampler_activated: Optional[bool] = False
     ):
+        """Create the DataLoaders for each of the split types.
+
+        Args:
+            transformation (transforms.Compose): the transformations that we want to apply to the images.
+            csv_data_path (Optional[str], optional): the path to the csv data for the dataframe. Defaults to 'data.csv'.
+            df (Optional[pd.DataFrame], optional): dataframe with the information already loaded. Defaults to None.
+            not_class_info (List[str], optional): the columns of the dataframe that do not refer to the classifications. Defaults to ['image_path', 'split_type'].
+        """
+
+        # TODO: Assess csv_data_path has the .csv extension and is file type of csv
+        # TODO: Support other types of extensions
 
         self.transformation = transformation
         self.sampler_activated = sampler_activated
@@ -115,10 +160,10 @@ class DataCreator:
         if self.sampler_activated:
             pass
 
-        # TODO: Train/Test/Valid split from seed
+        # TODO: Train/Test/Valid split from seed (for small ones, do not do valid)
     
         dict_loader = {}
-        for split_type in self.df['split_tupe'].unique().tolist():
+        for split_type in self.df['split_type'].unique().tolist():
             dict_loader[split_type] = Creator(
                 df=self.df,
                 class_groups=self.class_groups,
