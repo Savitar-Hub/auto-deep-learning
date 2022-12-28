@@ -24,7 +24,10 @@ class Creator(Dataset):
         
         self.df_dummies = {}
         for class_group in class_groups:
-            self.df_dummies[class_group] = pd.get_dummies(df, columns=[class_group])
+            self.df_dummies[class_group] = pd.get_dummies(
+                pd.DataFrame(df.loc[:, class_group]), 
+                columns=[class_group]
+            )
 
 
     @property
