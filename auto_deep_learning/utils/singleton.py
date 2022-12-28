@@ -6,7 +6,7 @@ class Singleton(type):
         # If this class is not in our instances
         if cls not in cls._instances:
             # Initialize a new and unique instance
-            cls._instances = super(Singleton, cls).__call__(*args, **kwargs)
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         
         # Return this class
         return cls._instances[cls]
