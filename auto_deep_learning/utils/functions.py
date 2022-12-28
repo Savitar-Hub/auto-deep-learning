@@ -176,3 +176,7 @@ def image_folder_convertion(
         df.to_csv(save_path, index=False, header=True)
         
     return df
+
+
+# TODO: tensor_dict = torch.load('model.dat', map_location='cpu') # OrderedDict
+# TODO: In Model, not only save hp but also the whole model if asked -> save on cpu
