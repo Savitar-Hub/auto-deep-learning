@@ -1,5 +1,4 @@
-from numpy import np
-
+import numpy as np
 from torch.utils.data import DataLoader
 from auto_deep_learning.utils import DataCreator
 
