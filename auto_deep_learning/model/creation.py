@@ -20,6 +20,7 @@ from auto_deep_learning.enum import (
 )
 from auto_deep_learning.utils import Loader
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
+from auto_deep_learning.utils.functions import to_cuda
 from auto_deep_learning.model.definition import define_model
 from auto_deep_learning.model.inference import inference
 
@@ -101,7 +102,7 @@ class Model:
                 # move to GPU
                 if use_cuda:
                     # TODO: Multiple targets and data (for now data is only img)
-                    data, target = data.cuda(), target.cuda()
+                    data, target = to_cuda(data), to_cuda(target)
 
                 optimizer.zero_grad()
                 # Obtain the output from the model

@@ -1,5 +1,7 @@
 import os
 import logging
+
+import torch
 import pandas as pd
 from typing import List, Dict
 
@@ -176,6 +178,22 @@ def image_folder_convertion(
         df.to_csv(save_path, index=False, header=True)
         
     return df
+
+
+def to_cuda(
+    x: torch.Tensor
+) -> torch.Tensor:
+
+    if x is None:
+        return None
+
+    if not torch.is_tensor(x):
+        x = torch.tensor(x)
+    
+    x = x.contiguous()
+    x = x.cuda(non_blocking=True)
+
+    return x
 
 
 # TODO: tensor_dict = torch.load('model.dat', map_location='cpu') # OrderedDict
