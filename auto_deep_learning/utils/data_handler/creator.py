@@ -43,6 +43,12 @@ class Creator(Dataset):
         return self.df.columns.values.tolist()
 
 
+    @columns.setter
+    def columns(self, column_names: List[str]) -> List[str]:
+        self.df.columns = column_names
+        return self.df.columns.values.tolist()
+
+
     def __get_dummies_df(
         self,
         class_group: str
