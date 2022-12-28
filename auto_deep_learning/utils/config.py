@@ -1,11 +1,4 @@
-from singleton import Singleton
-
-# For batch processing
-BATCH_SIZE = 64
-
-# Train/Valid/Test Split
-TEST_SIZE = 0.05
-VALID_SIZE = 0.1
+from .singleton import Singleton
 
 
 class ConfigurationObject(metaclass=Singleton):
