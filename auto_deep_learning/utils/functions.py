@@ -183,6 +183,14 @@ def image_folder_convertion(
 def to_cuda(
     x: torch.Tensor
 ) -> torch.Tensor:
+    """Convert a torch tensor into cuda
+
+    Args:
+        x (torch.Tensor): the values that we want to convert into cuda
+
+    Returns:
+        torch.Tensor: the tensor converted into cuda
+    """
 
     if x is None:
         return None
@@ -194,6 +202,14 @@ def to_cuda(
     x = x.cuda(non_blocking=True)
 
     return x
+
+
+def count_model_parameters(
+    model
+):
+    """Count number of trainable parameters in a network"""
+
+    return sum(param.numel() for param in model.parameters() if param.requires_grad)
 
 
 # TODO: tensor_dict = torch.load('model.dat', map_location='cpu') # OrderedDict

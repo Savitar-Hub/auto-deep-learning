@@ -20,7 +20,7 @@ from auto_deep_learning.enum import (
 )
 from auto_deep_learning.utils import Loader
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
-from auto_deep_learning.utils.functions import to_cuda
+from auto_deep_learning.utils.functions import to_cuda, count_model_parameters
 from auto_deep_learning.model.definition import define_model
 from auto_deep_learning.model.inference import inference
 
@@ -170,7 +170,7 @@ class Model:
             for batch_idx, (data, target) in enumerate(loader_test):
                 # move to GPU
                 if use_cuda:
-                    data, target = data.cuda(), target.cuda()
+                    data, target = to_cuda(data), to_cuda(target)
 
                 # forward pass: compute predicted outputs by passing inputs to the model
                 output = self.model(data)
@@ -226,3 +226,9 @@ class Model:
         # TODO: Use log instead
         print(summary(self.model, (self.input_shape)))
 
+
+    @property
+    def count_parameters(
+        self
+    ):
+        return count_model_parameters(self.model)
