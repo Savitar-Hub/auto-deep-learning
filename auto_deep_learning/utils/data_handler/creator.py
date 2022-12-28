@@ -23,6 +23,7 @@ class Creator(Dataset):
         self.transformation = transformation
         self.class_groups = class_groups
         
+        self._columns = self.df.columns.values.tolist()
         # TODO: Get index and class map
 
         # TODO: Make them as properties
@@ -40,13 +41,19 @@ class Creator(Dataset):
 
     @property
     def columns(self) -> List[str]:
-        return self.df.columns.values.tolist()
+        return self._columns
 
 
     @columns.setter
     def columns(self, column_names: List[str]) -> List[str]:
+        # Update values in df
         self.df.columns = column_names
-        return self.df.columns.values.tolist()
+
+        # Update values in our internal variable
+        self._columns = self.df.columns.values.tolist()
+
+        # Return that internal variable
+        return self._columns
 
 
     def __get_dummies_df(
