@@ -17,11 +17,11 @@ class DatasetSampler():
 
         self.data_creator = data_creator
     
-    def get_sampler(self) -> Dict[str, DataCreator]:
+    def get_sampler(self) -> Dict[str, DataLoader]:
         # TODO: For very small datasets, we might do not have valid
 
         return {
-            data_creator_key: DataCreator(
+            data_creator_key: DataLoader(
                 self.data_creator[data_creator_key],
                 batch_size = conf_obj.batch_size[data_creator_key]
             ) for data_creator_key in self.data_creator.keys()
