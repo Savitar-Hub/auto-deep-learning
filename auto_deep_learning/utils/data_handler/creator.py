@@ -24,7 +24,6 @@ class Creator(Dataset):
         self.class_groups = class_groups
         
         self._columns = self.df.columns.values.tolist()
-        # TODO: Get index and class map
 
         # TODO: Make them as properties
         self.df_dummies = {}
@@ -56,6 +55,15 @@ class Creator(Dataset):
         return self._columns
 
 
+    @property
+    def class_group_unique(
+        self,
+        column: str
+    ) -> List[str]:
+    
+        return self.df[column].unique().tolist()
+
+
     def __get_dummies_df(
         self,
         class_group: str
@@ -85,24 +93,6 @@ class Creator(Dataset):
             self.dict_mapping_idx_class[class_group][str(idx)] = class_value
         
         return self.dict_mapping_idx_class
-
-    """@property
-    def class_groups_list(self) -> List[List[str]]:
-        return self.class_groups
-    
-
-    @property
-    def class_group_num(self) -> int:
-        return len(self.class_groups)"""
-
-
-    @property
-    def class_group_unique(
-        self,
-        column: str
-    ) -> List[str]:
-    
-        return self.df[column].unique().tolist()
 
 
     def __getitem__(
@@ -175,14 +165,17 @@ class DataCreator:
 
         # TODO: Train/Test/Valid split from seed (for small ones, do not do valid)
     
+        # TODO: Get loaders with df already ordered by class names (so as all splits have same class, get dummies idx_class will be the same)
         dict_loader = {}
         for split_type in self.df['split_type'].unique().tolist():
+            # Create the creator for that split type
             dict_loader[split_type] = Creator(
-                df=self.df,
+                df=self.df[self.df['split_type'] == split_type],
                 class_groups=self.class_groups,
                 transformation=self.transformation,
             )
         
+        # TODO: Need to pass dict_loader, but also the group classes & number of class values for each
         return dict_loader
 
 

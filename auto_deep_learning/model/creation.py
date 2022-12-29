@@ -18,7 +18,7 @@ from auto_deep_learning.enum import (
     ModelName, 
     OptimizerType
 )
-from auto_deep_learning.utils import Loader
+from auto_deep_learning.utils import DatasetSampler
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
 from auto_deep_learning.utils.functions import to_cuda, count_model_parameters
 from auto_deep_learning.model.definition import define_model
@@ -29,7 +29,7 @@ from auto_deep_learning.model.inference import inference
 class Model:
     def __init__(
         self,
-        data: Loader,
+        data: DatasetSampler,
         description: Optional[str] = '',
         objective: Optional[ModelObjective] = 'throughput',
         model_name: Optional[ModelName] = '',

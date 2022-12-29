@@ -1,3 +1,5 @@
+from typing import Dict
+
 import numpy as np
 from torch.utils.data import DataLoader
 from auto_deep_learning.utils import DataCreator
@@ -15,7 +17,7 @@ class DatasetSampler():
 
         self.data_creator = data_creator
     
-    def get_sampler(self):
+    def get_sampler(self) -> Dict[str, DataCreator]:
         # TODO: For very small datasets, we might do not have valid
 
         return {

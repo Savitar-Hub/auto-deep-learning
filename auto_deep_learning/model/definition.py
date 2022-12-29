@@ -39,7 +39,7 @@ def get_category_similarity(
 
 
 def define_model(
-    data: DatasetSampler,  # TODO: Model adapts to this
+    data: DatasetSampler,  # TODO: Model adapts to this: need to know number of group classes & class values
     category_type: Optional[str] = '',
     objective: Optional[ModelObjective] = 'throughput',
     model_name: Optional[ModelName] = '',
@@ -58,6 +58,10 @@ def define_model(
     Returns:
         _type_: _description_
     """
+
+    # Get the difference classes that we have
+    train_loader = data.get('train')
+
 
     if model_name:
         if model_version:
