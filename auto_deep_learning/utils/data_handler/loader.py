@@ -23,6 +23,9 @@ class DatasetSampler():
         return {
             data_creator_key: DataLoader(
                 self.data_creator[data_creator_key],
-                batch_size = conf_obj.batch_size[data_creator_key]
+                batch_size = conf_obj.batch_size[data_creator_key],
+                num_workers=conf_obj.num_workers,
+                shuffle=True,
+                drop_last=False
             ) for data_creator_key in self.data_creator.keys()
         }

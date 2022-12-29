@@ -1,3 +1,5 @@
+from typing import Dict
+
 from .singleton import Singleton
 
 
@@ -9,17 +11,19 @@ class ConfigurationObject(metaclass=Singleton):
         batch_size_test: int = 128,
         valid_size: float = 64,
         test_size: float = 0.05,
-        image_size: int = 224
+        image_size: int = 224,
+        num_workers: int = 6,
     ):
 
-        self._batch_size = {
+        self._batch_size: Dict[str, int] = {
             'train': batch_size_train,
             'valid': batch_size_valid,
             'test': batch_size_test
         }
-        self._valid_size = valid_size
-        self._test_size = test_size
-        self._image_size = image_size
+        self._valid_size: int = valid_size
+        self._test_size: int = test_size
+        self._image_size: int = image_size
+        self._num_workers: int = num_workers  # TODO: https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813/4
     
 
     @property
@@ -33,6 +37,17 @@ class ConfigurationObject(metaclass=Singleton):
 
         return self._batch_size
     
+
+    @property
+    def num_workers(self):
+        return self._num_workers
+    
+
+    @num_workers.setter
+    def num_workers(self, new_num_workers):
+        self._num_workers = new_num_workers
+
+        return self._num_workers
 
     @property
     def valid_size(self):
