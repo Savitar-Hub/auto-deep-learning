@@ -4,13 +4,19 @@ from .singleton import Singleton
 class ConfigurationObject(metaclass=Singleton):
     def __init__(
         self,
-        batch_size: int = 64,
+        batch_size_train: int = 64,
+        batch_size_valid: int = 128,
+        batch_size_test: int = 128,
         valid_size: float = 64,
         test_size: float = 0.05,
         image_size: int = 224
     ):
 
-        self._batch_size = batch_size
+        self._batch_size = {
+            'train': batch_size_train,
+            'valid': batch_size_valid,
+            'test': batch_size_test
+        }
         self._valid_size = valid_size
         self._test_size = test_size
         self._image_size = image_size
@@ -22,8 +28,8 @@ class ConfigurationObject(metaclass=Singleton):
     
 
     @batch_size.setter
-    def batch_size(self, new_batch_size):
-        self._batch_size = new_batch_size
+    def batch_size(self, split_type, new_batch_size):
+        self._batch_size[split_type] = new_batch_size
 
         return self._batch_size
     
