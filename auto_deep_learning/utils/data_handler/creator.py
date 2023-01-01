@@ -126,7 +126,7 @@ class DataCreator:
 
 
     @classmethod
-    def get_loaders(
+    def get_data_creators(
         self,
     ) -> Dict[str, Creator]:
 

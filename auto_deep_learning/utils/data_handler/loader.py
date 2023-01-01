@@ -15,17 +15,25 @@ class DatasetSampler():
         data_creator: DataCreator,
     ):
 
+        # Store the Data Creator
         self.data_creator = data_creator
+
+        # Store the information about the dataframe we are treating and class groups
+        self.df = data_creator.df
+        self.class_groups = data_creator.class_groups
+        self.df_dummies = data_creator.df_dummies
+        self.dict_mapping_idx_class = data_creator.dict_mapping_idx_class
+
     
     def get_sampler(self) -> Dict[str, DataLoader]:
-        # TODO: For very small datasets, we might do not have valid
+        data_creators = self.data_creator.get_data_creators()
 
         return {
             data_creator_key: DataLoader(
-                self.data_creator[data_creator_key],
-                batch_size = conf_obj.batch_size[data_creator_key],
+                data_creators[data_creator_key],
+                batch_size=conf_obj.batch_size[data_creator_key],
                 num_workers=conf_obj.num_workers,
                 shuffle=True,
                 drop_last=False
-            ) for data_creator_key in self.data_creator.keys()
+            ) for data_creator_key in data_creators.keys()
         }
