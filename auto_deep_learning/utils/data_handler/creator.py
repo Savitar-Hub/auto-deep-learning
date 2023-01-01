@@ -15,6 +15,7 @@ class Creator(Dataset):
         self,
         df: pd.DataFrame,
         class_groups: List[str],
+        df_dummies: pd.DataFrame,
         transformation: transforms.Compose,
     ):
 
@@ -24,14 +25,7 @@ class Creator(Dataset):
         self.class_groups = class_groups
         
         self._columns = self.df.columns.values.tolist()
-
-        # TODO: Make them as properties
-        self.df_dummies = {}
-        self.dict_mapping_idx_class = {}
-        # Get the dummies & and mapping idx-class_value  for that class group
-        for class_group in self.class_groups:
-            self.__get_dummies_df(class_group)
-            self.__get_dummies_mapping(class_group)
+        self.df_dummies = df_dummies
 
     @property
     def __len__(self) -> int:
@@ -63,38 +57,7 @@ class Creator(Dataset):
     
         return self.df[column].unique().tolist()
 
-
-    def __get_dummies_df(
-        self,
-        class_group: str
-    ) -> pd.DataFrame:
-
-        dummy_df: pd.DataFrame = pd.get_dummies(
-            pd.DataFrame(self.df.loc[:, class_group]), 
-            columns=[class_group],
-            prefix='',
-            prefix_sep=''
-        )
-
-        self.df_dummies[class_group] = dummy_df
-
-        return dummy_df
-
     
-    def __get_dummies_mapping(
-        self,
-        class_group: str
-    ) -> Dict[str, Dict[str, str]]:
-
-        # For that class group, get which are the columns in the dummmies and create the mapping between idx and class name
-        self.dict_mapping_idx_class[class_group] = {}
-
-        for idx, class_value in enumerate(self.df_dummies[class_group].columns.values):
-            self.dict_mapping_idx_class[class_group][str(idx)] = class_value
-        
-        return self.dict_mapping_idx_class
-
-
     def __getitem__(
         self,
         idx
@@ -153,6 +116,14 @@ class DataCreator:
             class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
         ]
     
+        # TODO: Make them as properties
+        self.df_dummies = {}
+        self.dict_mapping_idx_class = {}
+        # Get the dummies & and mapping idx-class_value  for that class group
+        for class_group in self.class_groups:
+            self.__get_dummies_df(class_group)
+            self.__get_dummies_mapping(class_group)
+
 
     @classmethod
     def get_loaders(
@@ -172,11 +143,44 @@ class DataCreator:
             dict_loader[split_type] = Creator(
                 df=self.df[self.df['split_type'] == split_type],
                 class_groups=self.class_groups,
+                df_dummies=self.df_dummies,
                 transformation=self.transformation,
             )
         
         # TODO: Need to pass dict_loader, but also the group classes & number of class values for each
         return dict_loader
+
+
+
+    def __get_dummies_df(
+        self,
+        class_group: str
+    ) -> pd.DataFrame:
+
+        dummy_df: pd.DataFrame = pd.get_dummies(
+            pd.DataFrame(self.df.loc[:, class_group]), 
+            columns=[class_group],
+            prefix='',
+            prefix_sep=''
+        )
+
+        self.df_dummies[class_group] = dummy_df
+
+        return dummy_df
+
+    
+    def __get_dummies_mapping(
+        self,
+        class_group: str
+    ) -> Dict[str, Dict[str, str]]:
+
+        # For that class group, get which are the columns in the dummmies and create the mapping between idx and class name
+        self.dict_mapping_idx_class[class_group] = {}
+
+        for idx, class_value in enumerate(self.df_dummies[class_group].columns.values):
+            self.dict_mapping_idx_class[class_group][str(idx)] = class_value
+        
+        return self.dict_mapping_idx_class
 
 
     
