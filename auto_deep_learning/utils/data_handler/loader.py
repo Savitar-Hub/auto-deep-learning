@@ -35,6 +35,6 @@ class DatasetSampler():
                 batch_size=conf_obj.batch_size[data_creator_key],
                 num_workers=conf_obj.num_workers,
                 shuffle=True,
-                drop_last=False
+                drop_last=True
             ) for data_creator_key in data_creators.keys()
         }
