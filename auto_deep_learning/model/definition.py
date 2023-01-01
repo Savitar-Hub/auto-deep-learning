@@ -11,7 +11,7 @@ from auto_deep_learning.utils.functions import check_numerical_value
 from auto_deep_learning.exceptions.model import (
     IncorrectCategoryType
 )
-
+from .arch.convolution import SimpleConvNet
 
 def get_category_similarity(
     category_type: str
@@ -59,19 +59,17 @@ def define_model(
         _type_: _description_
     """
 
-    # Get the difference classes that we have
-    train_loader = data.get('train')
-
-
     if model_name:
         if model_version:
             model = ... # TODO: Get the model
             # Final layers architecture
+            map_class_name_length = {key: len(values) for key, values in data.dict_mapping_idx_class}
+            model = SimpleConvNet(map_class_name_length)
 
             return model
 
     # Get amount of records that do we have
-    if len(data) < 200 and data.class_group_num < 10:
+    if len(data) < 5000 and data.class_group_num < 3:
         # Some simple model
 
         return model

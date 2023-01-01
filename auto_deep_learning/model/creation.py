@@ -104,6 +104,7 @@ class Model:
                     # TODO: Multiple targets and data (for now data is only img)
                     data, target = to_cuda(data), to_cuda(target)
 
+                # TODO: Both targets and outputs are dict, so when comparing we make them based on group_class
                 optimizer.zero_grad()
                 # Obtain the output from the model
                 output = self.model(data) # TODO: Multiple outputs, and each of them needs to be compared to the target
