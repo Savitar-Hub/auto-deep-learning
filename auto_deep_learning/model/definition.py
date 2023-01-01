@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List, Dict, Tuple
 
 from sentence_transformers import SentenceTransformer, util
 
@@ -13,6 +13,7 @@ from auto_deep_learning.exceptions.model import (
 )
 from .arch.convolution import SimpleConvNet
 
+
 def get_category_similarity(
     category_type: str
 ) -> float:
@@ -25,12 +26,12 @@ def get_category_similarity(
         cosine_scores: the degree of similarity between the two words
     """
 
-    words = ["Objects", category_type]
+    words: List[str, str] = ["Objects", category_type]
 
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
     objects_embedding, category_embedding = model.encode(words)
 
-    cosine_scores = util.pytorch_cos_sim(
+    cosine_scores: float = util.pytorch_cos_sim(
         objects_embedding, 
         category_embedding
     )
@@ -44,7 +45,7 @@ def define_model(
     objective: Optional[ModelObjective] = 'throughput',
     model_name: Optional[ModelName] = '',
     model_version: Optional[str] = '',
-    input_shape: Optional[int] = 224  # TODO: Model adapts to this
+    input_shape: Optional[Tuple[int]] = (224, 224) 
 ):
     """Definition of which will be the final model
 
@@ -56,21 +57,27 @@ def define_model(
         model_version (Optional[str], optional): if we want to specify the model version (related to model name). Defaults to ''.
 
     Returns:
-        _type_: _description_
+        model: deep learning architecture
     """
+
+    map_class_name_length: Dict[str, int] = {key: len(values) for key, values in data.dict_mapping_idx_class}
+
 
     if model_name:
         if model_version:
             model = ... # TODO: Get the model
             # Final layers architecture
-            map_class_name_length = {key: len(values) for key, values in data.dict_mapping_idx_class}
-            model = SimpleConvNet(map_class_name_length)
+            
 
             return model
 
     # Get amount of records that do we have
     if len(data) < 5000 and data.class_group_num < 3:
         # Some simple model
+        model = SimpleConvNet(
+            input_shape,
+            map_class_name_length,
+        )
 
         return model
 

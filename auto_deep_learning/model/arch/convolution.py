@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Tuple
 
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,12 +8,13 @@ import torch.nn.functional as F
 class SimpleConvNet(nn.Module):
     def __init__(
         self,
+        input_shape: Tuple[int],
         map_class_name_length: Dict[str, int]
     ):
         super(SimpleConvNet, self).__init__()
 
         self.map_class_name_length = map_class_name_length
-        
+
         ## Define layers of a CNN
         self.conv_1 = nn.Conv2d(3, 16, 3, stride=1, padding=1) 
         self.conv_2 = nn.Conv2d(16, 32, 3, stride=1, padding=1) 
@@ -26,7 +27,12 @@ class SimpleConvNet(nn.Module):
         self.pool = nn.MaxPool2d(2,2)        
         
         # And linear models
-        self.fc1 = nn.Linear(7*7*256, 1024) # 7 as (224/(2*2*2*2*2) and 256 as it is the depth
+        x_shape: int = input_shape[0] / 2**5
+        y_shape: int = input_shape[1] / 2**5
+        
+        self.fc1 = nn.Linear(
+            x_shape*y_shape*256, 1024
+        ) # 7 as (224/(2*2*2*2*2) and 256 as it is the depth
 
         # Other model that i tested
         for class_name, class_length in self.map_class_name_length.items():
