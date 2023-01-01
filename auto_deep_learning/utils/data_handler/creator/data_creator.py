@@ -10,12 +10,14 @@ from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 
 from .base_creator import Creator
+from auto_deep_learning.utils.config import ConfigurationObject
+
+conf_obj = ConfigurationObject()
 
 
 class DataCreator:
     def __init__(
         self,
-        transformation: transforms.Compose,
         csv_data_path: Optional[str] = 'data.csv',
         df: Optional[pd.DataFrame] = None,
         not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constants
@@ -24,7 +26,6 @@ class DataCreator:
         """Create the DataLoaders for each of the split types.
 
         Args:
-            transformation (transforms.Compose): the transformations that we want to apply to the images.
             csv_data_path (Optional[str], optional): the path to the csv data for the dataframe. Defaults to 'data.csv'.
             df (Optional[pd.DataFrame], optional): dataframe with the information already loaded. Defaults to None.
             not_class_info (List[str], optional): the columns of the dataframe that do not refer to the classifications. Defaults to ['image_path', 'split_type'].
@@ -33,7 +34,6 @@ class DataCreator:
         # TODO: Assess csv_data_path has the .csv extension and is file type of csv
         # TODO: Support other types of extensions
 
-        self.transformation = transformation
         self.sampler_activated = sampler_activated
         self.df = df if df else pd.read_csv(csv_data_path)
 
@@ -64,12 +64,14 @@ class DataCreator:
         # TODO: Get loaders with df already ordered by class names (so as all splits have same class, get dummies idx_class will be the same)
         dict_loader = {}
         for split_type in self.df['split_type'].unique().tolist():
+            transformation: transforms.Compose = conf_obj.img_transformers[split_type].create()
+
             # Create the creator for that split type
             dict_loader[split_type] = Creator(
                 df=self.df[self.df['split_type'] == split_type],
                 class_groups=self.class_groups,
                 df_dummies=self.df_dummies,
-                transformation=self.transformation,
+                transformation=transformation,
             )
         
         # TODO: Need to pass dict_loader, but also the group classes & number of class values for each

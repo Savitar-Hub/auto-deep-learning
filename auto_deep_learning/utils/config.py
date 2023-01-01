@@ -1,11 +1,25 @@
-from typing import Dict
+from typing import Dict, Any
 
 from .singleton import Singleton
+from auto_deep_learning.utils.data_handler.transform.augmentation import ImageTransformer
 
 
 class ConfigurationObject(metaclass=Singleton):
     def __init__(
         self,
+        img_transformers: Dict[str, Any] =  {
+            'train': ImageTransformer(
+                rotation=3.0,
+                color_jitter_brightness=3.0,
+                color_jitter_contrast=3.0,
+                color_jitter_hue=3.0,
+                color_jitter_saturation=3.0,
+                color_jitter_enabled=True,
+                resized_crop_enabled=True
+            ),
+            'valid': ImageTransformer(),
+            'test': ImageTransformer()
+        },
         batch_size_train: int = 64,
         batch_size_valid: int = 128,
         batch_size_test: int = 128,
@@ -15,6 +29,7 @@ class ConfigurationObject(metaclass=Singleton):
         num_workers: int = 6,
     ):
 
+        self._img_transformers = img_transformers
         self._batch_size: Dict[str, int] = {
             'train': batch_size_train,
             'valid': batch_size_valid,
@@ -24,7 +39,6 @@ class ConfigurationObject(metaclass=Singleton):
         self._test_size: int = test_size
         self._image_size: int = image_size
         self._num_workers: int = num_workers  # TODO: https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813/4
-    
 
     @property
     def batch_size(self):
