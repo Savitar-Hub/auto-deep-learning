@@ -3,7 +3,7 @@ from typing import Optional, List, Any
 from pydantic import validate_arguments
 import torchvision.transforms as transforms
 
-from auto_deep_learning.utils.constants import MEAN_CONSTANTS, STD_CONSTANTS
+from .constants import MEAN_CONSTANTS, STD_CONSTANTS
 from auto_deep_learning.exceptions.utils import (
     InvalidArgumentType,
     InconsistentInput
@@ -22,8 +22,8 @@ class ImageTransformer(object):
         color_jitter_contrast: Optional[float] = 0.0,
         color_jitter_hue: Optional[float] = 0.0,
         normalize: Optional[bool] = True,
-        resize_enabled: Optional[bool] = False,
-        resized_crop_enabled: Optional[bool] = True,
+        resize_enabled: Optional[bool] = True,
+        resized_crop_enabled: Optional[bool] = False,
         color_jitter_enabled: Optional[bool] = False,
         type_validations: Optional[bool] = True,
         input_validation: Optional[bool] = True
@@ -114,7 +114,7 @@ class ImageTransformer(object):
     
     def create(self) -> transforms.Compose:
         transformations: List[Any] = [transforms.RandomRotation(self.rotation)] if self.rotation else []
-        transformations += [transforms.RandomResizedCrop(224)] if self.resize_enabled else []
+        transformations += [transforms.RandomResizedCrop(224)] if self.resized_crop_enabled else []
         transformations += [transforms.RandomHorizontalFlip()] if self.horizontal_flip else []
         if self.color_jitter_enabled:
             transformations += [
@@ -125,6 +125,7 @@ class ImageTransformer(object):
                     brightness=self.color_jitter_brightness
                 )
             ]
+        transformations += [transforms.Resize((self.resize, self.resize))]
         transformations += [transforms.ToTensor()]
         transformations += [
             transforms.Normalize(
