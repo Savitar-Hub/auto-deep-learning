@@ -27,11 +27,11 @@ class SimpleConvNet(nn.Module):
         self.pool = nn.MaxPool2d(2,2)        
         
         # And linear models
-        x_shape: int = input_shape[0] / 2**5
-        y_shape: int = input_shape[1] / 2**5
-        
+        self.x_shape: int = input_shape[0] / 2**5
+        self.y_shape: int = input_shape[1] / 2**5
+
         self.fc1 = nn.Linear(
-            x_shape*y_shape*256, 1024
+            self.x_shape*self.y_shape*256, 1024
         ) # 7 as (224/(2*2*2*2*2) and 256 as it is the depth
 
         # Other model that i tested
@@ -54,7 +54,7 @@ class SimpleConvNet(nn.Module):
 
         
         # Flatten the input
-        x = x.view(-1, 7*7*256)
+        x = x.view(-1, self.x_shape*self.y_shape*256)
         
         # Add the dropout
         x = self.dropout(x)
