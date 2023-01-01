@@ -9,6 +9,7 @@ from auto_deep_learning.utils.config import ConfigurationObject
 np.random.seed(0)
 conf_obj = ConfigurationObject()
 
+
 class DatasetSampler():
     def __init__(
         self,

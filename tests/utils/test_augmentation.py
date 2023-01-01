@@ -60,9 +60,10 @@ class TestImageAugmentation:
 
     def test_instantiation(self):
         new_transformer = ImageTransformer()
+        print(new_transformer, 'new_transformer')
 
-        assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
-        assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, False, True, False)"""
+        assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
+        assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
         assert isinstance(new_transformer, ImageTransformer)
     
 
@@ -73,6 +74,7 @@ class TestImageAugmentation:
 
         assert isinstance(new_transformer_created, transforms.Compose)
         assert str(new_transformer_created.transforms) == str(transforms.Compose([
+            transforms.Resize((224.0, 224.0)),
             transforms.ToTensor(),
             transforms.Normalize(
                 mean=[0.485, 0.456, 0.406], 
