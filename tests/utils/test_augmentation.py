@@ -60,7 +60,6 @@ class TestImageAugmentation:
 
     def test_instantiation(self):
         new_transformer = ImageTransformer()
-        print(new_transformer, 'new_transformer')
 
         assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
         assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
