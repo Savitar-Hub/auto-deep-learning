@@ -22,7 +22,7 @@ classifiers = [
 
 setup(
     name='auto_deep_learning',
-    version='0.1.5.0',
+    version='0.1.5.2',
     description='Automation of the creation of the architecture of the neural network based on the input',
     long_description=long_description,
     long_description_content_type='text/markdown',
