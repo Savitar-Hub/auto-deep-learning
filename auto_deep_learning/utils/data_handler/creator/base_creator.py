@@ -68,7 +68,7 @@ class Creator(Dataset):
 
         # Get which is the image path
         img_path = self.df.iloc[idx, 0]
-        image = Image.open(img_path)
+        image = Image.open(img_path).convert('RGB')
 
         class_groups_index = {}
         for class_group in self.class_groups:            
