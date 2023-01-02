@@ -20,6 +20,12 @@ classifiers = [
     'Programming Language :: Python :: 3.10',
 ]
 
+# For extra parts of the packages
+extras = {
+    'cloud': ['pytest'],
+    'api': ['fastapi', 'alembic']
+}
+
 
 setup(
     name='auto_deep_learning',
@@ -36,7 +42,8 @@ setup(
         'machine learning',
         'computer vision',
         'convolutional neural networks',
-        'neural networks'
+        'neural networks',
+        'image classification'
     ],
     license='MIT',
     packages=find_packages(),
@@ -52,5 +59,6 @@ setup(
         'pre-commit==2.21.0',
         'pandas==1.5.0'
     ],
+    extras_require=extras,      # For handling API & Cloud extras
     classifiers=classifiers,
 )
