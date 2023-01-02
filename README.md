@@ -47,6 +47,7 @@ The project structure is the following one:
     └── tests                               # Tests
 ```
 
+
 ## Basic Usage
 How easy can be to create and train a deep learning model:
 ```python
@@ -61,6 +62,21 @@ How easy can be to create and train a deep learning model:
     model.predict('image.jpg')
 ```
 
+We provide also with a configuration object, where it centralizes some of the most important configurations that you might want to do:
+```python
+    ConfigurationObject(
+        img_transformers: Dict[str, ImageTransformer],
+        n_epochs: int = 10,
+        batch_size_train: int = 64,
+        batch_size_valid: int = 128,
+        batch_size_test: int = 128,
+        valid_size: float = 0.1,
+        test_size: float = 0.05,
+        image_size: int = 224,
+        num_workers: int = 6,
+        objective: ModelObjective = ModelObjective.THROUGHTPUT
+    )
+```
 
 ### Dataset
 
