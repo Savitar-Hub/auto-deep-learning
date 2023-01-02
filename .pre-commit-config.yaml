@@ -1,3 +1,4 @@
+exclude: ^(parent_folder/raw_images/raw_images_clean)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
@@ -6,8 +7,10 @@ repos:
       - id: end-of-file-fixer               # Add empty string end of each file
       - id: trailing-whitespace             # Remove extra whitespaces
       - id: check-added-large-files         # Check we do not commit vast large files
+        args: ['--maxkb=1000']
       - id: double-quote-string-fixer       # Replace " by '
       - id: check-merge-conflict            # Check for unresolved merge conflicts
+      - id: check-case-conflict
       - id: check-ast                       # Check .py files are valid
       - id: check-yaml                      # YML files are properly structured
       - id: check-toml
@@ -40,4 +43,10 @@ repos:
             'flake8-implicit-str-concat',
             'pydocstyle>=5.0.0',
         ]
-        exclude: tests/
+        exclude: tests/, parent_folder, raw_images_clean,
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: [ "bandit[toml]" ]
