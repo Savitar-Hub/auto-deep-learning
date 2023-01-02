@@ -29,7 +29,7 @@ extras = {
 
 setup(
     name='auto_deep_learning',
-    version='0.1.5.3',
+    version='0.1.5.4',
     description='Automation of the creation of the architecture of the neural network based on the input',
     long_description=long_description,
     long_description_content_type='text/markdown',
