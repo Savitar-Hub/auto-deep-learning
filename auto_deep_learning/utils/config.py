@@ -2,12 +2,13 @@ from typing import Dict, Any
 
 from .singleton import Singleton
 from auto_deep_learning.utils.data_handler.transform.augmentation import ImageTransformer
+from auto_deep_learning.enum import ModelObjective
 
 
 class ConfigurationObject(metaclass=Singleton):
     def __init__(
         self,
-        img_transformers: Dict[str, Any] =  {
+        img_transformers: Dict[str, ImageTransformer] =  {
             'train': ImageTransformer(
                 rotation=3.0,
                 color_jitter_brightness=3.0,
@@ -20,13 +21,15 @@ class ConfigurationObject(metaclass=Singleton):
             'valid': ImageTransformer(),
             'test': ImageTransformer()
         },
+        n_epochs: int = 10,
         batch_size_train: int = 64,
         batch_size_valid: int = 128,
         batch_size_test: int = 128,
-        valid_size: float = 64,
+        valid_size: float = 0.1,
         test_size: float = 0.05,
         image_size: int = 224,
         num_workers: int = 6,
+        objective: ModelObjective = ModelObjective.THROUGHPUT
     ):
 
         self._img_transformers = img_transformers
@@ -39,6 +42,31 @@ class ConfigurationObject(metaclass=Singleton):
         self._test_size: int = test_size
         self._image_size: int = image_size
         self._num_workers: int = num_workers  # TODO: https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813/4
+        self._n_epochs: int = n_epochs
+        self._objective: ModelObjective = objective
+
+
+    @property
+    def objective(self):
+        return self._objective
+    
+
+    @objective.setter
+    def objective(self, new_objective):
+        self._objective = new_objective
+        return self._objective
+
+
+    @property
+    def n_epochs(self):
+        return self._n_epochs
+    
+
+    @n_epochs.setter
+    def n_epochs(self, new_n_epochs):
+        self._n_epochs = new_n_epochs
+        return self._n_epochs
+
 
     @property
     def batch_size(self):
