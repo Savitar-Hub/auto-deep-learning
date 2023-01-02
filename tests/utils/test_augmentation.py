@@ -2,11 +2,9 @@ import pytest
 import torchvision.transforms as transforms
 from pydantic import ValidationError
 
+from auto_deep_learning.exceptions.utils import (InconsistentInput,
+                                                 InvalidArgumentType)
 from auto_deep_learning.utils import ImageTransformer
-from auto_deep_learning.exceptions.utils import (
-    InvalidArgumentType,
-    InconsistentInput
-)
 
 
 @pytest.fixture()
@@ -23,12 +21,12 @@ def get_test_numerical_types():
 @pytest.fixture()
 def get_numerical_fields():
     return [
-        'rotation', 
-        'resize', 
-        'resized_crop', 
-        'color_jitter_brightness', 
-        'color_jitter_saturation', 
-        'color_jitter_contrast', 
+        'rotation',
+        'resize',
+        'resized_crop',
+        'color_jitter_brightness',
+        'color_jitter_saturation',
+        'color_jitter_contrast',
         'color_jitter_hue'
     ]
 
@@ -64,7 +62,6 @@ class TestImageAugmentation:
         assert str(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
         assert repr(new_transformer) == """ImageTransformer(0.0, 224.0, 224.0, False, 0.0, 0.0, 0.0, 0.0, True, True, False, False)"""
         assert isinstance(new_transformer, ImageTransformer)
-    
 
     def test_creation_augmentation(self):
         new_transformer_created = ImageTransformer(
@@ -76,11 +73,10 @@ class TestImageAugmentation:
             transforms.Resize((224.0, 224.0)),
             transforms.ToTensor(),
             transforms.Normalize(
-                mean=[0.485, 0.456, 0.406], 
+                mean=[0.485, 0.456, 0.406],
                 std=[0.229, 0.224, 0.225]
             )
         ]).transforms)
-
 
     def test_inconsistent_input(self):
         try:
@@ -88,16 +84,15 @@ class TestImageAugmentation:
                 color_jitter_brightness=10.0,
                 color_jitter_enabled=False
             )
-        
+
         except InconsistentInput:
             assert True
 
-
-    @pytest.mark.parametrize("idx_test, ", range(7))
+    @pytest.mark.parametrize('idx_test, ', range(7))
     def test_invalid_numerical_fields(
         self,
-        get_numerical_fields, 
-        get_test_numerical_types, 
+        get_numerical_fields,
+        get_test_numerical_types,
         idx_test
     ):
 
@@ -108,19 +103,18 @@ class TestImageAugmentation:
                 locals()['test_field']: test_numerical_type,
                 'input_validation': False
             }
-            
+
             try:
                 ImageTransformer(**numerical_mapping)
 
             except InvalidArgumentType:
                 assert True
-    
 
-    @pytest.mark.parametrize("idx_test, ", range(5))
+    @pytest.mark.parametrize('idx_test, ', range(5))
     def test_invalid_boolean_fields(
         self,
-        get_boolean_fields, 
-        get_test_boolean_types, 
+        get_boolean_fields,
+        get_test_boolean_types,
         idx_test
     ):
 
@@ -131,13 +125,10 @@ class TestImageAugmentation:
                 locals()['test_field']: test_boolean_type,
                 'input_validation': False
             }
-            
+
             try:
                 ImageTransformer(**boolean_mapping)
                 assert False
 
             except InvalidArgumentType:
                 assert True
-        
-
-     

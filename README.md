@@ -1,5 +1,5 @@
 # Auto-Deep-Learning (Auto Deep Learning)
-[![Downloads](https://static.pepy.tech/personalized-badge/auto-deep-learning?period=month&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/auto_deep_learning) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python-Version](https://img.shields.io/badge/python-3.9-blue) ![issues](https://img.shields.io/github/issues/Nil-Andreu/auto_deep_learning) ![PyPI - Status](https://img.shields.io/pypi/status/auto_deep_learning) ![License](https://img.shields.io/github/license/Nil-Andreu/auto_deep_learning) 
+[![Downloads](https://static.pepy.tech/personalized-badge/auto-deep-learning?period=month&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/auto_deep_learning) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python-Version](https://img.shields.io/badge/python-3.9-blue) ![issues](https://img.shields.io/github/issues/Nil-Andreu/auto_deep_learning) ![PyPI - Status](https://img.shields.io/pypi/status/auto_deep_learning) ![License](https://img.shields.io/github/license/Nil-Andreu/auto_deep_learning)
 
 ```auto_deep_learning```: with this package, you will be able to create, train and deploy neural networks automatically based on the input that you provide.
 
@@ -30,11 +30,11 @@ The project structure is the following one:
     │   │   ├── aws                         # Amazon Web Services
     │   │   └── gcp                         # Google Cloud
     │   ├── enum                            # Enumerations for the model
-    │   ├── exceptions                      # Exceptions 
+    │   ├── exceptions                      # Exceptions
     │   │   ├── model                       # Exceptions related to the definition/creation of the model
     │   │   └── utils                       # Exceptions related to the utilities folder
     │   │       └── data_handler            # Exceptions related to handling the data
-    │   ├── model                           # Module for creating & training the models 
+    │   ├── model                           # Module for creating & training the models
     │   │   └── arch                        # Architectures supported of the models
     │   │       └── convolution
     │   ├── schemas                         # Schemas of expected outputs
@@ -109,11 +109,11 @@ The data that it expects is a pd.DataFrame(), where the columns are the followin
     - split_type: whether it is for train/valid/test
 ```
 For better performance, it is suggested that the classes and the type are of dtype *category* in the pandas DataFrame.
-If the type is not provided in the dataframe, you should use the utils function of *data_split_types* (in *utils.dataset.sampler* file). 
+If the type is not provided in the dataframe, you should use the utils function of *data_split_types* (in *utils.dataset.sampler* file).
 
 If instead you have the images ordered in the structure of ImageFolder, which is the following structure:
 ```
-    train/  
+    train/
         class1_value/
             1.jgp
             2.jpg
