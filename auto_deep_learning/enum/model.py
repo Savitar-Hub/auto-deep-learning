@@ -1,3 +1,5 @@
+from enum import Enum
+
 class OptimizerType(Enum):
     SGD = 'sgd'
     ADAM = 'adam'
