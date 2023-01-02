@@ -49,7 +49,8 @@ setup(
         'sentence-transformers==2.2.2',
         'torchsummary==1.5.1',
         'pytest',
-        'pre-commit==2.21.0'
+        'pre-commit==2.21.0',
+        'pandas==1.5.0'
     ],
     classifiers=classifiers,
 )
