@@ -21,10 +21,10 @@ class Model:
     def __init__(
         self,
         data: DatasetSampler,
-        category_type: Optional[str] = "",
+        category_type: Optional[str] = '',
         objective: Optional[str] = conf_obj.objective,
-        model_name: Optional[ModelName] = "",
-        model_version: Optional[str] = "",
+        model_name: Optional[ModelName] = None,
+        model_version: Optional[str] = '',
         input_shape: Optional[int] = conf_obj.image_size,
     ):
         """Instance of the Neural Network model.
@@ -66,7 +66,7 @@ class Model:
             int
         ] = conf_obj.n_epochs,  # TODO: Create function for default lr
         use_cuda: Optional[bool] = torch.cuda.is_available(),
-        save_path: Optional[str] = "model.pt",
+        save_path: Optional[str] = 'model.pt',
     ):
         """Train of the model
 
@@ -95,7 +95,7 @@ class Model:
             # set the module to training mode
             cls.model.train()
 
-            for batch_idx, (data, target) in enumerate(cls.data["train"]):
+            for batch_idx, (data, target) in enumerate(cls.data['train']):
                 # move to GPU
                 if use_cuda:
                     # TODO: Multiple targets and data (for now data is only img)
@@ -132,7 +132,7 @@ class Model:
             # set the model to evaluation mode
             cls.model.eval()
 
-            if valid_loader := cls.data.get("valid"):
+            if valid_loader := cls.data.get('valid'):
                 for batch_idx, (data, target) in enumerate(valid_loader):
                     # move to GPU
                     if use_cuda:
@@ -162,7 +162,7 @@ class Model:
                 # TODO: Use logger instead of prints
                 # print training/validation statistics
                 print(
-                    "Epoch: {} \tTraining Loss: {:.6f} \tValidation Loss: {:.6f}".format(
+                    'Epoch: {} \tTraining Loss: {:.6f} \tValidation Loss: {:.6f}'.format(
                         epoch, train_loss, valid_loss
                     )
                 )
@@ -170,7 +170,7 @@ class Model:
                 if valid_loss < valid_loss_min:
                     # Print an alert
                     print(
-                        "Validation loss decreased ({:.6f} --> {:.6f}).  Saving model..".format(
+                        'Validation loss decreased ({:.6f} --> {:.6f}).  Saving model..'.format(
                             valid_loss_min, valid_loss
                         )
                     )
@@ -196,7 +196,7 @@ class Model:
         if use_cuda:
             cls.model.cuda()
 
-        if loader_test := cls.data.get("test"):
+        if loader_test := cls.data.get('test'):
             for batch_idx, (data, target) in enumerate(loader_test):
                 # move to GPU
                 if use_cuda:
@@ -224,10 +224,10 @@ class Model:
 
                 total += data.size(0)
 
-        print("Test Loss: {:.6f}\n".format(test_loss))
+        print('Test Loss: {:.6f}\n'.format(test_loss))
 
         print(
-            "\nTest Accuracy: %2d%% (%2d/%2d)"
+            '\nTest Accuracy: %2d%% (%2d/%2d)'
             % (100.0 * correct / total, correct, total)
         )
 
@@ -237,7 +237,7 @@ class Model:
         cls.model = default_weight_init(cls.model)
 
     @classmethod
-    def predict(cls, img_path: str = "predict.img"):
+    def predict(cls, img_path: str = 'predict.img'):
         output_inference = inference(cls.model, img_path=img_path)
 
         return output_inference

@@ -1,6 +1,3 @@
-from typing import Optional, List
-
-
 class NoFolderData(Exception):
     """No folders found in the path provided
 
@@ -9,8 +6,8 @@ class NoFolderData(Exception):
     """
 
     def __init__(
-        self, 
-        msg: str = "No folders found in the path provided", 
+        self,
+        msg: str = 'No folders found in the path provided',
     ):
 
         self.msg: str = msg
@@ -27,7 +24,7 @@ class ChildFileUnexpected(Exception):
     def __init__(
         self,
         path: str,
-        msg: str = "Found a file when expecting folder"
+        msg: str = 'Found a file when expecting folder'
     ):
 
         self.msg: str = msg + ': ' + path

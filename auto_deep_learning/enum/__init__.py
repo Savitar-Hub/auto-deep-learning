@@ -1,5 +1,1 @@
-from .model import (
-    ModelObjective, 
-    ModelName,
-    OptimizerType
-)
+from .model import ModelName, ModelObjective, OptimizerType

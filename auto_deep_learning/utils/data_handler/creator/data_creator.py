@@ -1,16 +1,11 @@
-import os
-from typing import Optional, List, Dict
+from typing import Dict, List, Optional
 
-import torch
-import numpy as np
 import pandas as pd
-from PIL import Image
-
-from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 
-from .base_creator import Creator
 from auto_deep_learning.utils.config import ConfigurationObject
+
+from .base_creator import Creator
 
 conf_obj = ConfigurationObject()
 
@@ -40,7 +35,7 @@ class DataCreator:
         self.class_groups = [
             class_group for class_group in self.df.columns.values.tolist() if class_group not in not_class_info
         ]
-    
+
         # TODO: Make them as properties
         self.df_dummies = {}
         self.dict_mapping_idx_class = {}
@@ -49,34 +44,32 @@ class DataCreator:
             self.__get_dummies_df(class_group)
             self.__get_dummies_mapping(class_group)
 
-
     @classmethod
     def get_data_creators(
-        self,
+        cls,
     ) -> Dict[str, Creator]:
 
         # TODO: upsapler/downsampler depending if is activated, with seed
-        if self.sampler_activated:
+        if cls.sampler_activated:
             pass
 
         # TODO: Train/Test/Valid split from seed (for small ones, do not do valid)
-    
+
         # TODO: Get loaders with df already ordered by class names (so as all splits have same class, get dummies idx_class will be the same)
         dict_loader = {}
-        for split_type in self.df['split_type'].unique().tolist():
+        for split_type in cls.df['split_type'].unique().tolist():
             transformation: transforms.Compose = conf_obj.img_transformers[split_type].create()
 
             # Create the creator for that split type
             dict_loader[split_type] = Creator(
-                df=self.df[self.df['split_type'] == split_type],
-                class_groups=self.class_groups,
-                df_dummies=self.df_dummies,
+                df=cls.df[cls.df['split_type'] == split_type],
+                class_groups=cls.class_groups,
+                df_dummies=cls.df_dummies,
                 transformation=transformation,
             )
-        
+
         # TODO: Need to pass dict_loader, but also the group classes & number of class values for each
         return dict_loader
-
 
     def __get_dummies_df(
         self,
@@ -84,7 +77,7 @@ class DataCreator:
     ) -> pd.DataFrame:
 
         dummy_df: pd.DataFrame = pd.get_dummies(
-            pd.DataFrame(self.df.loc[:, class_group]), 
+            pd.DataFrame(self.df.loc[:, class_group]),
             columns=[class_group],
             prefix='',
             prefix_sep=''
@@ -94,7 +87,6 @@ class DataCreator:
 
         return dummy_df
 
-    
     def __get_dummies_mapping(
         self,
         class_group: str
@@ -105,5 +97,5 @@ class DataCreator:
 
         for idx, class_value in enumerate(self.df_dummies[class_group].columns.values):
             self.dict_mapping_idx_class[class_group][str(idx)] = class_value
-        
+
         return self.dict_mapping_idx_class

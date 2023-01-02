@@ -1,10 +1,11 @@
 from typing import List, Optional
 
+
 class IncorrectFolderStructure(Exception):
     """Expected folders of train/valid/test."""
 
     def __init__(
-        self, 
+        self,
         folder_structure: List[str] = [],
         msg: str = 'Expected structure of train and valid/test (at least one of those two)'
     ) -> None:
@@ -17,7 +18,7 @@ class IncorrectFolderStructure(Exception):
 
 class ImbalancedClassError(Exception):
     """Error when we have some classes that are not on the other split types."""
-    
+
     def __init__(
         self,
         msg: str = 'There are classes in certain split types that are not in the others'
@@ -29,7 +30,7 @@ class ImbalancedClassError(Exception):
 
 class InvalidFileType(Exception):
     def __init__(
-        self, 
+        self,
         file: Optional[str],
         msg: str = 'Invalid file type found'
     ) -> None:

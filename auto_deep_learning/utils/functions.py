@@ -1,20 +1,17 @@
+# import logging
 import os
-import logging
+from typing import Dict, List
 
-import torch
 import pandas as pd
-from typing import List, Dict
+import torch
 
 from auto_deep_learning.exceptions.utils.functions import (
-    ImbalancedClassError, 
-    IncorrectFolderStructure,
-    InvalidFileType
-)
+    ImbalancedClassError, IncorrectFolderStructure, InvalidFileType)
 
 
 def check_numerical_value(
     category_type: str
-):  
+):
     """Check if inside a string we have a numerical value.
     This is becasue in the category_type provided to our model object, must only have characters.
 
@@ -30,15 +27,15 @@ def create_df_image_folder(
 ) -> pd.DataFrame:
     """
     Create the dataframe that will be the base for the image folder dataset.
-    
+
     Parameters
     ----------
     columns : list
         The columns that will be used for the dataframe
-    
+
     dtypes : dict
         Dictionary for the column name : column dtype for the dataframe
-    
+
     Returns
     -------
     df : pd.DataFrame
@@ -70,7 +67,7 @@ def image_folder_convertion(
 ):
     """
     Function to make the conversion from the image folder structure to a dataframe that is wanted.
-    
+
     Parameters
     ----------
     parent_folder_path : str
@@ -78,13 +75,13 @@ def image_folder_convertion(
 
     columns : list
         The columns that will be used for the dataframe
-    
+
     dtypes : dict
         Dictionary for the column name : column dtype for the dataframe
-    
+
     save : bool
         If we want to save the dataframe that we get
-    
+
     Returns
     -------
     df : pd.DataFrame
@@ -93,7 +90,7 @@ def image_folder_convertion(
 
     # TODO: Assess parent_folder str has not trailing /
 
-    # Get the df we will use as the base one 
+    # Get the df we will use as the base one
     df = create_df_image_folder(
         columns=columns,
         dtypes=dtypes
@@ -109,7 +106,7 @@ def image_folder_convertion(
     for folder in split_folders:
         if folder not in ['train', 'valid', 'test']:
             raise IncorrectFolderStructure(folder_structure=split_folders)
-    
+
     for split_folder in split_folders:
         # We get the path of .../train and .../test
         split_path: str = parent_folder_path + '/' + split_folder
@@ -123,7 +120,7 @@ def image_folder_convertion(
             images_path: str = split_path + '/' + child_class
 
             # List the images we have inside that folder
-            images_child_class_path: List[str] = os.listdir(images_path) 
+            images_child_class_path: List[str] = os.listdir(images_path)
 
             for idx, file in enumerate(images_child_class_path):
                 if not file.endswith('.jpg') or file.endswith('.png'):
@@ -139,11 +136,11 @@ def image_folder_convertion(
                 [
                     df,
                     pd.DataFrame(
-                        data = {
+                        data={
                             'class': class_list,
                             'split_type': dtype_list,
                             'image_path': images_child_class_path,
-                    })
+                        })
                 ], axis=0
             )
 
@@ -152,14 +149,12 @@ def image_folder_convertion(
             del class_list
             del dtype_list
 
-    
     # Checks once the pandas dataframe created, classes in train = test
     unique_per_class = df.groupby('split_type')['class'].unique()
 
     unique_per_class_test = list(set(unique_per_class[0]))
     unique_per_class_train = list(set(unique_per_class[1]))
     unique_per_class_valid = list(set(unique_per_class[2]))
-
 
     for idx in range(max(
         len(unique_per_class_test),
@@ -171,12 +166,12 @@ def image_folder_convertion(
             if not unique_per_class_test[idx] == unique_per_class_train[idx] == unique_per_class_valid[idx]:
                 raise ImbalancedClassError()
 
-        except IndexError:
-            raise ImbalancedClassError()
+        except IndexError as e:
+            raise ImbalancedClassError() from e
 
     if save:
         df.to_csv(save_path, index=False, header=True)
-        
+
     return df
 
 
@@ -197,7 +192,7 @@ def to_cuda(
 
     if not torch.is_tensor(x):
         x = torch.tensor(x)
-    
+
     x = x.contiguous()
     x = x.cuda(non_blocking=True)
 

@@ -1,11 +1,4 @@
 from auto_deep_learning.exceptions.utils.data_handler.img import (
-    InvalidArgumentType, 
-    InconsistentInput
-)
-
+    InconsistentInput, InvalidArgumentType)
 from auto_deep_learning.exceptions.utils.data_handler.loader import (
-    InvalidFileExtension, 
-    InvalidSplitType, 
-    NoFolderData, 
-    ChildFileUnexpected
-)
+    ChildFileUnexpected, InvalidFileExtension, InvalidSplitType, NoFolderData)

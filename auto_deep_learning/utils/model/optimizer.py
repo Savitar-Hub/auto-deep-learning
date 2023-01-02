@@ -56,7 +56,7 @@ def get_optimizer(
     if filter_by_requires_grad:
         params = list(filter(lambda p: p.required_grad, params))
 
-    if conf_obj.optimizer == "adam":
+    if conf_obj.optimizer == 'adam':
         if wd == 0:
             return optim.Adam(params, lr=lr, betas=betas, eps=eps)
 
@@ -64,10 +64,10 @@ def get_optimizer(
         wd_params, not_wd_params = weight_decay_params(params)
 
         params = [
-            {"params": wd_params},
+            {'params': wd_params},
             {
-                "params": not_wd_params,
-                "weight_decay": 0,
+                'params': not_wd_params,
+                'weight_decay': 0,
             },  # For the ones that do not have wd
         ]
 

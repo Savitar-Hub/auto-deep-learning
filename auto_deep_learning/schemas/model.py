@@ -1,4 +1,5 @@
 from typing import List
+
 from pydantic import BaseModel
 
 
@@ -22,5 +23,5 @@ class ModelPrediction(BaseModel):
     """
     Predictions of the model made for one or more class groups.
     """
-    
+
     prediction: List[ModelPredictionUnit]

@@ -1,22 +1,21 @@
 from enum import Enum
 
+
 class OptimizerType(Enum):
+    """Define supported optimizer types"""
+
     SGD = 'sgd'
     ADAM = 'adam'
-    
-    
+
 
 class ModelObjective(Enum):
     """Define which is the model objective
     If you want to make research, it is recommended to use for accuracy.
     If you are creating a startup or is for a company project, where speed is important, use throughput.
-
-    Args:
-        Enum
     """
 
     ACCURACY = 'accuracy'
-    THROUGHPUT = 'throughput' 
+    THROUGHPUT = 'throughput'
 
 
 class ModelName(Enum):

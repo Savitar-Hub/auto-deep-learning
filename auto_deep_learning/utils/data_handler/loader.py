@@ -2,6 +2,7 @@ from typing import Dict
 
 import numpy as np
 from torch.utils.data import DataLoader
+
 from auto_deep_learning.utils import DataCreator
 from auto_deep_learning.utils.config import ConfigurationObject
 
@@ -25,7 +26,6 @@ class DatasetSampler():
         self.df_dummies = data_creator.df_dummies
         self.dict_mapping_idx_class = data_creator.dict_mapping_idx_class
 
-    
     def get_sampler(self) -> Dict[str, DataLoader]:
         data_creators = self.data_creator.get_data_creators()
 

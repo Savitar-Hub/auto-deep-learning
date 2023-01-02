@@ -1,16 +1,12 @@
-from typing import Optional, List, Dict, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from sentence_transformers import SentenceTransformer, util
 
-from auto_deep_learning.enum import (
-    ModelObjective,
-    ModelName
-)
+from auto_deep_learning.enum import ModelName, ModelObjective
+from auto_deep_learning.exceptions.model import IncorrectCategoryType
 from auto_deep_learning.utils import DatasetSampler
 from auto_deep_learning.utils.functions import check_numerical_value
-from auto_deep_learning.exceptions.model import (
-    IncorrectCategoryType
-)
+
 from .arch.convolution import SimpleConvNet
 
 
@@ -26,13 +22,13 @@ def get_category_similarity(
         cosine_scores: the degree of similarity between the two words
     """
 
-    words: List[str, str] = ["Objects", category_type]
+    words: List[str, str] = ['Objects', category_type]
 
     model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
     objects_embedding, category_embedding = model.encode(words)
 
     cosine_scores: float = util.pytorch_cos_sim(
-        objects_embedding, 
+        objects_embedding,
         category_embedding
     )
 
@@ -45,7 +41,7 @@ def define_model(
     objective: Optional[ModelObjective] = 'throughput',
     model_name: Optional[ModelName] = '',
     model_version: Optional[str] = '',
-    input_shape: Optional[Tuple[int]] = (224, 224) 
+    input_shape: Optional[Tuple[int]] = (224, 224)
 ):
     """Definition of which will be the final model
 
@@ -62,12 +58,10 @@ def define_model(
 
     map_class_name_length: Dict[str, int] = {key: len(values) for key, values in data.dict_mapping_idx_class}
 
-
     if model_name:
         if model_version:
-            model = ... # TODO: Get the model
+            model = ...  # TODO: Get the model
             # Final layers architecture
-            
 
             return model
 
@@ -86,7 +80,7 @@ def define_model(
             category_type=category_type,
             msg='Should be only one word'
         )
-    
+
     if check_numerical_value(category_type=category_type):
         raise IncorrectCategoryType(
             category_type=category_type,
@@ -98,26 +92,25 @@ def define_model(
     )
 
     if category_similarity > .7 and \
-        objective == 'throughput':
+            objective == 'throughput':
 
         # Use vit
         # Freede intermediate
         # Create final layers
         return model
-    
+
     elif category_similarity > 0.3:
         if objective == 'throughput':
             # Use the beit or swin (not the largest one)
             # Without freezing
-        
 
             return model
-        
+
         if objective == 'accuracy':
             # Use the beit or swin (the largest one)
             # Without freezing
 
             return model
-    
+
     # Do now freeze intermediate layers
     pass

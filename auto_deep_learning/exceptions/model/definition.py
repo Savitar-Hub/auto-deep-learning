@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class IncorrectCategoryType(Exception):
     def __init__(
         self,

@@ -4,7 +4,6 @@ from auto_deep_learning.model import Model
 def default_weight_init(
     model: Model
 ):
-
     """Function to reset the parameters of the model
 
     Args:
@@ -19,5 +18,5 @@ def default_weight_init(
 
         # We call it
         model.reset_parameters()
-    
+
     return model
