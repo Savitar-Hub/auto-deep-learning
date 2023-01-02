@@ -19,10 +19,13 @@ from auto_deep_learning.enum import (
     OptimizerType
 )
 from auto_deep_learning.utils import DatasetSampler
+from auto_deep_learning.utils.config import ConfigurationObject
 from auto_deep_learning.utils.model import get_criterion, get_optimizer, default_weight_init
 from auto_deep_learning.utils.functions import to_cuda, count_model_parameters
 from auto_deep_learning.model.definition import define_model
 from auto_deep_learning.model.inference import inference
+
+conf_obj = ConfigurationObject()
 
 
 # TODO: Save also the whole model (both in gpu and cpu) and load the whole model (without predefinition of the arch)
@@ -31,10 +34,10 @@ class Model:
         self,
         data: DatasetSampler,
         description: Optional[str] = '',
-        objective: Optional[ModelObjective] = 'throughput',
+        objective: Optional[ModelObjective] = conf_obj.objective,
         model_name: Optional[ModelName] = '',
         model_version: Optional[str] = '',
-        input_shape: Optional[int] = 224, # TODO: Default input shape of 224, but could be nice to accept other sizes
+        input_shape: Optional[int] = conf_obj.image_size,
     ):
         """Instance of the Neural Network model.
 
@@ -69,10 +72,10 @@ class Model:
     def fit(
         self,
         lr: Optional[int],  # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
-        n_epochs: Optional[int] = 10,  # TODO: Create function for default lr 
+        n_epochs: Optional[int] = conf_obj.n_epochs,  # TODO: Create function for default lr 
         use_cuda: Optional[bool] = torch.cuda.is_available(),
         save_path: Optional[str] = 'model.pt',
-        optimizer: Optional[OptimizerType] = 'cross-entropy'
+        optimizer: Optional[OptimizerType] = OptimizerType.CROSS_ENTROPY
     ):
         """Train of the model
 
