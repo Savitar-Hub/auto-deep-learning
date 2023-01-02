@@ -6,3 +6,4 @@ pydantic==1.10.2
 transformers==4.25.1
 sentence-transformers==2.2.2
 torchsummary==1.5.1
+pre-commit==2.21.0

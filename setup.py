@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 try:
     import pypandoc
@@ -8,12 +8,13 @@ except (IOError, ImportError):
     long_description = open('README.md').read()
 
 
+# Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
 classifiers = [
-    'Development Status :: 3 - Alpha',      # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
+    'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',      # Define that your audience are developers
     'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: MIT License',  
-    'Programming Language :: Python :: 3.7', 
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
@@ -22,7 +23,7 @@ classifiers = [
 
 setup(
     name='auto_deep_learning',
-    version='0.1.5.2',
+    version='0.1.5.3',
     description='Automation of the creation of the architecture of the neural network based on the input',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -47,7 +48,8 @@ setup(
         'transformers==4.25.1',
         'sentence-transformers==2.2.2',
         'torchsummary==1.5.1',
-        'pytest'
+        'pytest',
+        'pre-commit==2.21.0'
     ],
     classifiers=classifiers,
 )
