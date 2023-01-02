@@ -1,6 +1,6 @@
 class OptimizerType(Enum):
     SGD = 'sgd'
-    CROSS_ENTROPY = 'cross-entropy'
+    ADAM = 'adam'
     
     
 
