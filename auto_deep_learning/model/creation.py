@@ -93,31 +93,51 @@ class Model:
         valid_loss_min = np.Inf 
         optimizer = get_optimizer(self.model, lr)
 
+        if use_cuda:
+            self.model.cuda()
+
         for epoch in range(1, n_epochs+1):
             # initialize variables to monitor training and validation loss
-            train_loss = 0.0
-            valid_loss = 0.0
+            train_loss, valid_loss = 0.0, 0.0
             
             # set the module to training mode
             self.model.train()
+
             for batch_idx, (data, target) in enumerate(self.data['train']):
                 # move to GPU
                 if use_cuda:
                     # TODO: Multiple targets and data (for now data is only img)
                     data, target = to_cuda(data), to_cuda(target)
 
-                # TODO: Both targets and outputs are dict, so when comparing we make them based on group_class
                 optimizer.zero_grad()
                 # Obtain the output from the model
                 output = self.model(data) # TODO: Multiple outputs, and each of them needs to be compared to the target
-                # Obtain loss
-                loss = self.criterion(output, target) # TODO: Then sum all the losses
+                
+                # TODO: Check this works fine
+                # Obtain loss for each of the targets we have
+                for target_key in target.keys():
+                    target_output = output[target_key]
+                    target_expected = target[target_key]
+
+                    if loss in locals():
+                        loss += self.criterion(
+                        target_output, 
+                        target_expected
+                    ) 
+
+                    else:
+                        loss = self.criterion(
+                            target_output, 
+                            target_expected
+                        )
+
                 # Backward induction
                 loss.backward()
                 # Perform optimization step
                 optimizer.step()  
 
                 train_loss = train_loss + ((1 / (batch_idx + 1)) * (loss.data.item() - train_loss))
+                del loss
 
             # set the model to evaluation mode
             self.model.eval()
@@ -130,9 +150,25 @@ class Model:
 
                     output = self.model(data)
                     # Obtain the loss
-                    loss = self.criterion(output, target)
+                    for target_key in target.keys():
+                        target_output = output[target_key]
+                        target_expected = target[target_key]
+
+                        if loss in locals():
+                            loss += self.criterion(
+                            target_output, 
+                            target_expected
+                        ) 
+
+                        else:
+                            loss = self.criterion(
+                                target_output, 
+                                target_expected
+                            )
+
                     # Add this loss to the list (same as before but instead of train we use valid)
                     valid_loss = valid_loss + ((1 / (batch_idx + 1)) * (loss.data.item() - valid_loss))
+                    del loss
 
                 # TODO: Use logger instead of prints
                 # print training/validation statistics 
@@ -169,6 +205,10 @@ class Model:
         # set the module to evaluation mode
         self.model.eval()
 
+        # Move cuda after eval so consumes less memory
+        if use_cuda:
+            self.model.cuda()
+
         if loader_test := self.data.get('test'):
             for batch_idx, (data, target) in enumerate(loader_test):
                 # move to GPU
@@ -179,6 +219,7 @@ class Model:
                 output = self.model(data)
 
                 # calculate the loss
+                # TODO: Testing with multiple outputs & targets
                 loss = self.criterion(output, target)
 
                 # update average test loss 
