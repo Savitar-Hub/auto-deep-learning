@@ -5,6 +5,7 @@ repos:
       - id: end-of-file-fixer               # Add empty string end of each file
       - id: trailing-whitespace             # Remove extra whitespaces
       - id: check-added-large-files         # Check we do not commit vast large files
+      - id: double-quote-string-fixer       # Replace " by '
       - id: check-merge-conflict            # Check for unresolved merge conflicts
       - id: check-ast                       # Check .py files are valid
       - id: check-yaml                      # YML files are properly structured
