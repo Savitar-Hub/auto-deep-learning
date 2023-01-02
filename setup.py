@@ -59,6 +59,6 @@ setup(
         'pre-commit==2.21.0',
         'pandas==1.5.0'
     ],
-    extras_require=extras,      # For handling API & Cloud extras
+    extras_require=extras,      # For handling API & Cloud extras: https://hynek.me/articles/python-recursive-optional-dependencies/
     classifiers=classifiers,
 )

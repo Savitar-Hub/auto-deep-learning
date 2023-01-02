@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List
 
 import pandas as pd
 import torch
@@ -57,24 +57,27 @@ class Creator(Dataset):
     ):
 
         if torch.is_tensor(idx):
-            idx = idx.tolist()
+            idx = idx.tolist()      # TODO: Convert to normal int, so we could use .at without returning series
 
         # Get which is the image path
-        img_path = self.df.iloc[idx, 0]
-        image = Image.open(img_path).convert('RGB')
+        img_path: str = self.df.iloc[idx, 0]  # TODO: Try with .at
+        image = Image.open(img_path).convert('RGB')  # TODO: Open with numpy maybe is faster
 
-        class_groups_index = {}
+        class_groups_index: Dict[str, Any] = {}
         for class_group in self.class_groups:
             # Get positional index and convert into tensor
             class_groups_index[class_group] = torch.tensor(
                 list(self.df_dummies[class_group].iloc[idx]).index(1),
             )
 
-        # Return as many classes as class that we have, as well as the image
-        sample = [image, class_groups_index]
-
         # If we have transformations, apply it
         if self.transformation:
-            sample[0] = self.transformation(sample[0])
+            image = self.transformation(image)
+
+        # Return as many classes as class that we have, as well as the image
+        sample: List[Any] = [image, class_groups_index]
+
+        del img_path
+        del class_group
 
         return sample
