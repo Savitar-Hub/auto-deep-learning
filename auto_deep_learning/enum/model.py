@@ -1,6 +1,6 @@
 class OptimizerType(Enum):
-    sgd = 'sgd'
-    cross_entropy = 'cross-entropy'
+    SGD = 'sgd'
+    CROSS_ENTROPY = 'cross-entropy'
     
     
 
@@ -13,8 +13,8 @@ class ModelObjective(Enum):
         Enum
     """
 
-    accuracy = 'accuracy'
-    throughput = 'throughput' 
+    ACCURACY = 'accuracy'
+    THROUGHPUT = 'throughput' 
 
 
 class ModelName(Enum):
@@ -23,10 +23,10 @@ class ModelName(Enum):
     The actual supported models are the following ones.
     """
 
-    vit = 'vit'
-    dit = 'dit'
-    swin = 'swin'
-    beit = 'beit'
-    levit = 'levit'
-    convex = 'convex'
-    resnet_50 = 'resnet-50'
+    VIT = 'vit'
+    DIT = 'dit'
+    SWIN = 'swin'
+    BEIT = 'beit'
+    LEVIT = 'levit'
+    CONVEX = 'convex'
+    RESTNET_50 = 'resnet-50'
