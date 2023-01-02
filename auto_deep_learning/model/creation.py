@@ -75,7 +75,6 @@ class Model:
         n_epochs: Optional[int] = conf_obj.n_epochs,  # TODO: Create function for default lr 
         use_cuda: Optional[bool] = torch.cuda.is_available(),
         save_path: Optional[str] = 'model.pt',
-        optimizer: Optional[OptimizerType] = OptimizerType.CROSS_ENTROPY
     ):
         """Train of the model
 

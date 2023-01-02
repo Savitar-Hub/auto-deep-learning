@@ -65,7 +65,6 @@ How easy can be to create and train a deep learning model:
 We provide also with a configuration object, where it centralizes some of the most important configurations that you might want to do:
 ```python
     ConfigurationObject(
-        img_transformers: Dict[str, ImageTransformer],
         n_epochs: int = 10,
         batch_size_train: int = 64,
         batch_size_valid: int = 128,
@@ -74,9 +73,30 @@ We provide also with a configuration object, where it centralizes some of the mo
         test_size: float = 0.05,
         image_size: int = 224,
         num_workers: int = 6,
-        objective: ModelObjective = ModelObjective.THROUGHTPUT
+        objective: ModelObjective = ModelObjective.THROUGHPUT,
+        img_transformers: Dict[str, ImageTransformer] =  {
+            'train': ImageTransformer(
+                rotation=3.0,
+                color_jitter_brightness=3.0,
+                color_jitter_contrast=3.0,
+                color_jitter_hue=3.0,
+                color_jitter_saturation=3.0,
+                color_jitter_enabled=True,
+                resized_crop_enabled=True
+            ),
+            'valid': ImageTransformer(),
+            'test': ImageTransformer()
+        }
     )
 ```
+So by default, it is going to do image augmentation on the training data.
+Note that if for example we did not want to make a validation split because our dataset is too small, we would change this value as:
+
+```python
+    conf_obj = ConfigurationObject()
+    conf_obj.valid_size = 0.0
+```
+
 
 ### Dataset
 
@@ -86,7 +106,7 @@ The data that it expects is a pd.DataFrame(), where the columns are the followin
     - class1: the classification of the class nr. 1. For example: {t-shirt, glasses, ...}
     - class2: the classification of the class nr. 2. For example: {summer, winter, ...}
     - ...
-    - split_type: whether it is for training/validation/testing
+    - split_type: whether it is for train/valid/test
 ```
 For better performance, it is suggested that the classes and the type are of dtype *category* in the pandas DataFrame.
 If the type is not provided in the dataframe, you should use the utils function of *data_split_types* (in *utils.dataset.sampler* file). 

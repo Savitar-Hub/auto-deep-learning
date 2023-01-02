@@ -2,12 +2,22 @@ from typing import Dict, Any
 
 from .singleton import Singleton
 from auto_deep_learning.utils.data_handler.transform.augmentation import ImageTransformer
-from auto_deep_learning.enum import ModelObjective
+from auto_deep_learning.enum import ModelObjective, OptimizerType
 
 
 class ConfigurationObject(metaclass=Singleton):
     def __init__(
         self,
+        n_epochs: int = 10,
+        batch_size_train: int = 64,
+        batch_size_valid: int = 128,
+        batch_size_test: int = 128,
+        valid_size: float = 0.1,
+        test_size: float = 0.05,
+        image_size: int = 224,
+        num_workers: int = 6,
+        optimizer: OptimizerType = OptimizerType.ADAM,
+        objective: ModelObjective = ModelObjective.THROUGHPUT,
         img_transformers: Dict[str, ImageTransformer] =  {
             'train': ImageTransformer(
                 rotation=3.0,
@@ -21,15 +31,6 @@ class ConfigurationObject(metaclass=Singleton):
             'valid': ImageTransformer(),
             'test': ImageTransformer()
         },
-        n_epochs: int = 10,
-        batch_size_train: int = 64,
-        batch_size_valid: int = 128,
-        batch_size_test: int = 128,
-        valid_size: float = 0.1,
-        test_size: float = 0.05,
-        image_size: int = 224,
-        num_workers: int = 6,
-        objective: ModelObjective = ModelObjective.THROUGHPUT
     ):
 
         self._img_transformers = img_transformers
@@ -43,7 +44,19 @@ class ConfigurationObject(metaclass=Singleton):
         self._image_size: int = image_size
         self._num_workers: int = num_workers  # TODO: https://discuss.pytorch.org/t/guidelines-for-assigning-num-workers-to-dataloader/813/4
         self._n_epochs: int = n_epochs
-        self._objective: ModelObjective = objective
+        self._objective: str = objective
+        self._optimizer: str = optimizer
+
+
+    @property
+    def optimizer(self):
+        return self._optimizer
+    
+
+    @optimizer.setter
+    def optimizer(self, new_optimizer):
+        self._optimizer = new_optimizer
+        return self._optimizer
 
 
     @property
