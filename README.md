@@ -21,15 +21,42 @@ To install the package:
 ```
 
 
+## Project Structure
+The project structure is the following one:
+
+```bash
+    ├── auto_deep_learning                  # Python Package
+    │   ├── cloud                           # Cloud module for saving & service DL models
+    │   │   ├── aws                         # Amazon Web Services
+    │   │   └── gcp                         # Google Cloud
+    │   ├── enum                            # Enumerations for the model
+    │   ├── exceptions                      # Exceptions 
+    │   │   ├── model                       # Exceptions related to the definition/creation of the model
+    │   │   └── utils                       # Exceptions related to the utilities folder
+    │   │       └── data_handler            # Exceptions related to handling the data
+    │   ├── model                           # Module for creating & training the models 
+    │   │   └── arch                        # Architectures supported of the models
+    │   │       └── convolution
+    │   ├── schemas                         # Schemas of expected outputs
+    │   └── utils                           # Utilities for the project
+    │       ├── data_handler                # Utilities related to handling the data
+    │       │   ├── creator                 # Utilities related to creating the loaders
+    │       │   └── transform               # Utilities related to the transformation of the data
+    │       └── model                       # Utilities related to the creation of the model
+    ├── examples                            # Examples of how the package can be used
+    └── tests                               # Tests
+```
+
 ## Basic Usage
 How easy can be to create and train a deep learning model:
 ```python
     from auto_deep_learning import Model
-    from auto_deep_learning.utils import Loader, image_folder_convertion
+    from auto_deep_learning.utils import DataCreator, DataSampler, image_folder_convertion
 
     df = image_folder_convertion()
-    data = Loader(df)
-    model = Model(data)
+    data = DataCreator(df)
+    data_sampled = DatasetSampler(data)
+    model = Model(data_sampled)
     model.fit()
     model.predict('image.jpg')
 ```
