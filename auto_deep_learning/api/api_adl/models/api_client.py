@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
 
@@ -23,3 +24,12 @@ class ApiClient(SQLModel, table=True):
     admin_email: Optional[str] = Field(max_length=256, nullable=True)
     enabled: bool = Field(default=True)
     trusted: bool = Field(sa_column=sa.Column(sa.Boolean, nullable=False, server_default=false()))
+
+    created_at: Optional[datetime] = Field(
+        sa_column=sa.Column(
+            sa.DateTime(),
+            nullable=False,
+            server_default=sa.func.current_timestamp()
+        )
+    )
+    updated_at: Optional[datetime] = Field(default_factory=datetime.utcnow, nullable=False)
