@@ -15,6 +15,11 @@ To install the package:
     pip install auto_deep_learning
 ```
 
+To be able to install the dependencies related to the automatic creation of the API:
+```bash
+    pip install auto_deep_learning[api]
+```
+
 **If using an old version of the package, update it:**
 ```bash
     pip install --upgrade auto_deep_learning
