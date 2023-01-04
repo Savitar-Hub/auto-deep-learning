@@ -132,5 +132,5 @@ MNIST
 notes.md
 parent_folder
 *.csv
-raw_images_clean
-raw_images
+raw_images_clean/
+raw_images/
