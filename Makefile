@@ -13,3 +13,13 @@ test:
 # Make count of lines of the program: apt install cloc
 count:
 		cloc . --exclude-dir=venv --exclude-ext=csv
+
+format:
+		black .
+		isort .
+
+lint:
+		mypy .
+		black . --check
+		isort . --check
+		flake8 .
