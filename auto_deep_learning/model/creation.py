@@ -19,13 +19,13 @@ conf_obj = ConfigurationObject()
 # TODO: Save also the whole model (both in gpu and cpu) and load the whole model (without predefinition of the arch)
 class Model:
     def __init__(
-        self,
-        data: DatasetSampler,
-        category_type: Optional[str] = '',
-        objective: Optional[str] = conf_obj.objective,
-        model_name: Optional[ModelName] = None,
-        model_version: Optional[str] = '',
-        input_shape: Optional[int] = conf_obj.image_size,
+            self,
+            data: DatasetSampler,
+            category_type: Optional[str] = '',
+            objective: Optional[str] = conf_obj.objective,
+            model_name: Optional[ModelName] = None,
+            model_version: Optional[str] = '',
+            input_shape: Optional[int] = conf_obj.image_size,
     ):
         """Instance of the Neural Network model.
 
@@ -58,15 +58,16 @@ class Model:
 
     @classmethod
     def fit(
-        cls,
-        lr: Optional[
-            int
-        ],  # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
-        n_epochs: Optional[
-            int
-        ] = conf_obj.n_epochs,  # TODO: Create function for default lr
-        use_cuda: Optional[bool] = torch.cuda.is_available(),
-        save_path: Optional[str] = 'model.pt',
+            cls,
+            lr: Optional[
+                int
+            ],
+            # TODO: Create function for default lr  -> 1e-4? Depends on self.model.recommended_lr, self.model.recommended_n_epochs
+            n_epochs: Optional[
+                int
+            ] = conf_obj.n_epochs,  # TODO: Create function for default lr
+            use_cuda: Optional[bool] = torch.cuda.is_available(),
+            save_path: Optional[str] = 'model.pt',
     ):
         """Train of the model
 
@@ -125,7 +126,7 @@ class Model:
                 optimizer.step()
 
                 train_loss = train_loss + (
-                    (1 / (batch_idx + 1)) * (loss.data.item() - train_loss)
+                        (1 / (batch_idx + 1)) * (loss.data.item() - train_loss)
                 )
                 del loss
 
@@ -155,7 +156,7 @@ class Model:
 
                     # Add this loss to the list (same as before but instead of train we use valid)
                     valid_loss = valid_loss + (
-                        (1 / (batch_idx + 1)) * (loss.data.item() - valid_loss)
+                            (1 / (batch_idx + 1)) * (loss.data.item() - valid_loss)
                     )
                     del loss
 
@@ -211,7 +212,7 @@ class Model:
 
                 # update average test loss
                 test_loss = test_loss + (
-                    (1 / (batch_idx + 1)) * (loss.data.item() - test_loss)
+                        (1 / (batch_idx + 1)) * (loss.data.item() - test_loss)
                 )
 
                 # convert output probabilities to predicted class

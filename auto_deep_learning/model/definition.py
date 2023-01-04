@@ -6,12 +6,11 @@ from auto_deep_learning.enum import ModelName, ModelObjective
 from auto_deep_learning.exceptions.model import IncorrectCategoryType
 from auto_deep_learning.utils import DatasetSampler
 from auto_deep_learning.utils.functions import check_numerical_value
-
 from .arch.convolution import SimpleConvNet
 
 
 def get_category_similarity(
-    category_type: str
+        category_type: str
 ) -> float:
     """Get the category similarity between purpose of Imagenet (classify objects), with the new dataset (f.e. classify fashion).
 
@@ -36,12 +35,12 @@ def get_category_similarity(
 
 
 def define_model(
-    data: DatasetSampler,  # TODO: Model adapts to this: need to know number of group classes & class values
-    category_type: Optional[str] = '',
-    objective: Optional[ModelObjective] = 'throughput',
-    model_name: Optional[ModelName] = '',
-    model_version: Optional[str] = '',
-    input_shape: Optional[Tuple[int]] = (224, 224)
+        data: DatasetSampler,  # TODO: Model adapts to this: need to know number of group classes & class values
+        category_type: Optional[str] = '',
+        objective: Optional[ModelObjective] = 'throughput',
+        model_name: Optional[ModelName] = '',
+        model_version: Optional[str] = '',
+        input_shape: Optional[Tuple[int]] = (224, 224)
 ):
     """Definition of which will be the final model
 

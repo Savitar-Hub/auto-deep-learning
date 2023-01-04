@@ -4,29 +4,29 @@ import torchvision.transforms as transforms
 
 from auto_deep_learning.exceptions.utils import (InconsistentInput,
                                                  InvalidArgumentType)
-
 from .constants import MEAN_CONSTANTS, STD_CONSTANTS
+
 
 # from pydantic import validate_arguments
 
 
 class ImageTransformer(object):
     def __init__(
-        self,
-        rotation: Optional[float] = 0.0,
-        resize: Optional[float] = 224.0,
-        resized_crop: Optional[float] = 224.0,
-        horizontal_flip: Optional[bool] = False,
-        color_jitter_brightness: Optional[float] = 0.0,
-        color_jitter_saturation: Optional[float] = 0.0,
-        color_jitter_contrast: Optional[float] = 0.0,
-        color_jitter_hue: Optional[float] = 0.0,
-        normalize: Optional[bool] = True,
-        resize_enabled: Optional[bool] = True,
-        resized_crop_enabled: Optional[bool] = False,
-        color_jitter_enabled: Optional[bool] = False,
-        type_validations: Optional[bool] = True,
-        input_validation: Optional[bool] = True
+            self,
+            rotation: Optional[float] = 0.0,
+            resize: Optional[float] = 224.0,
+            resized_crop: Optional[float] = 224.0,
+            horizontal_flip: Optional[bool] = False,
+            color_jitter_brightness: Optional[float] = 0.0,
+            color_jitter_saturation: Optional[float] = 0.0,
+            color_jitter_contrast: Optional[float] = 0.0,
+            color_jitter_hue: Optional[float] = 0.0,
+            normalize: Optional[bool] = True,
+            resize_enabled: Optional[bool] = True,
+            resized_crop_enabled: Optional[bool] = False,
+            color_jitter_enabled: Optional[bool] = False,
+            type_validations: Optional[bool] = True,
+            input_validation: Optional[bool] = True
     ) -> None:
 
         # Assertion of the type hints
@@ -42,7 +42,6 @@ class ImageTransformer(object):
             ]:
                 if not isinstance(locals()[numerical_field], float) and \
                         not isinstance(locals()[numerical_field], int):
-
                     raise InvalidArgumentType(
                         variable_name=numerical_field,
                         variable_expected_type='float'
@@ -75,12 +74,11 @@ class ImageTransformer(object):
                 )
 
             if (not color_jitter_enabled) and (
-                not color_jitter_brightness == 0.0
-                or not color_jitter_contrast == 0.0
-                or not color_jitter_saturation == 0.0
-                or not color_jitter_hue == 0.0
+                    not color_jitter_brightness == 0.0
+                    or not color_jitter_contrast == 0.0
+                    or not color_jitter_saturation == 0.0
+                    or not color_jitter_hue == 0.0
             ):
-
                 raise InconsistentInput(
                     msg=f'Color Jitter is not enabled, and has provided a Color Jitter dimension ({resize_enabled})'
                 )

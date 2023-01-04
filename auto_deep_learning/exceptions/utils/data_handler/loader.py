@@ -6,10 +6,9 @@ class NoFolderData(Exception):
     """
 
     def __init__(
-        self,
-        msg: str = 'No folders found in the path provided',
+            self,
+            msg: str = 'No folders found in the path provided',
     ):
-
         self.msg: str = msg
         super().__init__(self.msg)
 
@@ -22,11 +21,10 @@ class ChildFileUnexpected(Exception):
     """
 
     def __init__(
-        self,
-        path: str,
-        msg: str = 'Found a file when expecting folder'
+            self,
+            path: str,
+            msg: str = 'Found a file when expecting folder'
     ):
-
         self.msg: str = msg + ': ' + path
         super().__init__(self.msg)
 
@@ -39,9 +37,9 @@ class InvalidSplitType(Exception):
     """
 
     def __init__(
-        self,
-        invalid_split_name: str,
-        msg: str = 'Invalid Split Type'
+            self,
+            invalid_split_name: str,
+            msg: str = 'Invalid Split Type'
     ):
         self.msg: str = msg + ': ' + invalid_split_name
         self.msg += '\nShould be one of: {train, valid, test}'
@@ -57,10 +55,9 @@ class InvalidFileExtension(Exception):
     """
 
     def __init__(
-        self,
-        image_path: str,
-        msg: str = 'Found file that is not an image extension supported'
+            self,
+            image_path: str,
+            msg: str = 'Found file that is not an image extension supported'
     ):
-
         self.msg: str = msg + ': ' + image_path
         super().__init__(self.msg)

@@ -9,11 +9,11 @@ from torch.utils.data import Dataset
 
 class Creator(Dataset):
     def __init__(
-        self,
-        df: pd.DataFrame,
-        class_groups: List[str],
-        df_dummies: pd.DataFrame,
-        transformation: transforms.Compose,
+            self,
+            df: pd.DataFrame,
+            class_groups: List[str],
+            df_dummies: pd.DataFrame,
+            transformation: transforms.Compose,
     ):
 
         # TODO: Use _ for internal variables
@@ -45,19 +45,19 @@ class Creator(Dataset):
 
     @property
     def class_group_unique(
-        self,
-        column: str
+            self,
+            column: str
     ) -> List[str]:
 
         return self.df[column].unique().tolist()
 
     def __getitem__(
-        self,
-        idx
+            self,
+            idx
     ):
 
         if torch.is_tensor(idx):
-            idx = idx.tolist()      # TODO: Convert to normal int, so we could use .at without returning series
+            idx = idx.tolist()  # TODO: Convert to normal int, so we could use .at without returning series
 
         # Get which is the image path
         img_path: str = self.df.iloc[idx, 0]  # TODO: Try with .at

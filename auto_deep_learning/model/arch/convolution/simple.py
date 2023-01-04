@@ -7,9 +7,9 @@ import torch.nn.functional as F
 # define the CNN architecture
 class SimpleConvNet(nn.Module):
     def __init__(
-        self,
-        input_shape: Tuple[int],
-        map_class_name_length: Dict[str, int]
+            self,
+            input_shape: Tuple[int],
+            map_class_name_length: Dict[str, int]
     ):
         super(SimpleConvNet, self).__init__()
 
@@ -26,8 +26,8 @@ class SimpleConvNet(nn.Module):
         self.pool = nn.MaxPool2d(2, 2)
 
         # And linear models
-        self.x_shape: int = input_shape[0] / 2**5
-        self.y_shape: int = input_shape[1] / 2**5
+        self.x_shape: int = input_shape[0] / 2 ** 5
+        self.y_shape: int = input_shape[1] / 2 ** 5
 
         self.fc1 = nn.Linear(
             self.x_shape * self.y_shape * 256, 1024

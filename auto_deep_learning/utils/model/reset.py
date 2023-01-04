@@ -2,7 +2,7 @@ from auto_deep_learning.model import Model
 
 
 def default_weight_init(
-    model: Model
+        model: Model
 ):
     """Function to reset the parameters of the model
 
@@ -15,7 +15,6 @@ def default_weight_init(
 
     # If the method is callable
     if callable(reset_parameters):
-
         # We call it
         model.reset_parameters()
 

@@ -28,12 +28,12 @@ def weight_decay_params(params) -> Tuple[Any, Any]:
 
 
 def get_optimizer(
-    model,
-    lr: float = 1e-4,
-    filter_by_requires_grad=False,
-    betas: Tuple[float, float] = (0.9, 0.99),
-    eps: float = 1e-8,
-    wd: float = 1e-2,
+        model,
+        lr: float = 1e-4,
+        filter_by_requires_grad=False,
+        betas: Tuple[float, float] = (0.9, 0.99),
+        eps: float = 1e-8,
+        wd: float = 1e-2,
 ):
     """Get optimizer for the model parameters
 

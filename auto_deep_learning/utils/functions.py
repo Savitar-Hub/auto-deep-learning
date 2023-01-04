@@ -10,7 +10,7 @@ from auto_deep_learning.exceptions.utils.functions import (
 
 
 def check_numerical_value(
-    category_type: str
+        category_type: str
 ):
     """Check if inside a string we have a numerical value.
     This is becasue in the category_type provided to our model object, must only have characters.
@@ -23,7 +23,7 @@ def check_numerical_value(
 
 
 def create_df_image_folder(
-    columns: List[str], dtypes: Dict[str, str]
+        columns: List[str], dtypes: Dict[str, str]
 ) -> pd.DataFrame:
     """
     Create the dataframe that will be the base for the image folder dataset.
@@ -50,19 +50,19 @@ def create_df_image_folder(
 
 
 def image_folder_convertion(
-    parent_folder_path: str,
-    columns: List[str] = [
-        'image_path',
-        'class',
-        'split_type'
-    ],
-    dtypes: Dict[str, str] = {
-        'image_path': 'object',
-        'class': 'category',
-        'split_type': 'category'
-    },
-    save: bool = False,
-    save_path: str = 'data.csv'
+        parent_folder_path: str,
+        columns: List[str] = [
+            'image_path',
+            'class',
+            'split_type'
+        ],
+        dtypes: Dict[str, str] = {
+            'image_path': 'object',
+            'class': 'category',
+            'split_type': 'category'
+        },
+        save: bool = False,
+        save_path: str = 'data.csv'
 
 ):
     """
@@ -157,9 +157,9 @@ def image_folder_convertion(
     unique_per_class_valid = list(set(unique_per_class[2]))
 
     for idx in range(max(
-        len(unique_per_class_test),
-        len(unique_per_class_train),
-        len(unique_per_class_valid)
+            len(unique_per_class_test),
+            len(unique_per_class_train),
+            len(unique_per_class_valid)
     )):
 
         try:
@@ -176,7 +176,7 @@ def image_folder_convertion(
 
 
 def to_cuda(
-    x: torch.Tensor
+        x: torch.Tensor
 ) -> torch.Tensor:
     """Convert a torch tensor into cuda
 
@@ -200,12 +200,11 @@ def to_cuda(
 
 
 def count_model_parameters(
-    model
+        model
 ):
     """Count number of trainable parameters in a network"""
 
     return sum(param.numel() for param in model.parameters() if param.requires_grad)
-
 
 # TODO: tensor_dict = torch.load('model.dat', map_location='cpu') # OrderedDict
 # TODO: In Model, not only save hp but also the whole model if asked -> save on cpu

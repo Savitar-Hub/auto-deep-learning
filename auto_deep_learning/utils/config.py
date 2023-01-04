@@ -3,7 +3,6 @@ from typing import Dict
 from auto_deep_learning.enum import ModelObjective, OptimizerType
 from auto_deep_learning.utils.data_handler.transform.augmentation import \
     ImageTransformer
-
 from .singleton import Singleton
 
 train_transformer = ImageTransformer(
@@ -21,24 +20,23 @@ test_transformer = ImageTransformer()
 
 class ConfigurationObject(metaclass=Singleton):
     def __init__(
-        self,
-        n_epochs: int = 10,
-        batch_size_train: int = 64,
-        batch_size_valid: int = 128,
-        batch_size_test: int = 128,
-        valid_size: float = 0.1,
-        test_size: float = 0.05,
-        image_size: int = 224,
-        num_workers: int = 6,
-        optimizer: str = OptimizerType.ADAM,
-        objective: str = ModelObjective.THROUGHPUT,
-        img_transformers: Dict[str, ImageTransformer] = {
-            'train': train_transformer,
-            'valid': test_transformer,
-            'test': test_transformer
-        },
+            self,
+            n_epochs: int = 10,
+            batch_size_train: int = 64,
+            batch_size_valid: int = 128,
+            batch_size_test: int = 128,
+            valid_size: float = 0.1,
+            test_size: float = 0.05,
+            image_size: int = 224,
+            num_workers: int = 6,
+            optimizer: str = OptimizerType.ADAM,
+            objective: str = ModelObjective.THROUGHPUT,
+            img_transformers: Dict[str, ImageTransformer] = {
+                'train': train_transformer,
+                'valid': test_transformer,
+                'test': test_transformer
+            },
     ):
-
         self._img_transformers = img_transformers
         self._batch_size: Dict[str, int] = {
             'train': batch_size_train,

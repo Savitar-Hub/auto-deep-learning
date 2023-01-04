@@ -13,10 +13,9 @@ conf_obj = ConfigurationObject()
 
 class DatasetSampler():
     def __init__(
-        self,
-        data_creator: DataCreator,
+            self,
+            data_creator: DataCreator,
     ):
-
         # Store the Data Creator
         self.data_creator = data_creator
 

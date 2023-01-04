@@ -11,8 +11,8 @@ UpdateSchemaType = TypeVar('UpdateSchemaType', bound=BaseModel)
 
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(
-        self,
-        model: Type[ModelType]
+            self,
+            model: Type[ModelType]
     ):
         """
         CRUD object with default methods to Create, Read, Update, Delete (CRUD).
@@ -23,9 +23,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
 
     def get(
-        self,
-        db: Session,
-        id: Any
+            self,
+            db: Session,
+            id: Any
     ) -> Optional[ModelType]:
         """Get a single instance in the database
 
@@ -37,16 +37,16 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             Optional[ModelType]: _description_
         """
 
-        return db.query(self.model).\
-            filter(self.model.id == id).\
+        return db.query(self.model). \
+            filter(self.model.id == id). \
             first()
 
     def get_multi(
-        self,
-        db: Session,
-        *args,
-        begin_id: int = 0,
-        limit: int = 100
+            self,
+            db: Session,
+            *args,
+            begin_id: int = 0,
+            limit: int = 100
     ) -> List[ModelType]:
         """Get a group of instances in the database
 
@@ -59,17 +59,17 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             List[ModelType]: the list of instances that we wanted
         """
 
-        return db.query(self.model).\
-            filter(self.model.id >= begin_id).\
+        return db.query(self.model). \
+            filter(self.model.id >= begin_id). \
             limit(limit).all()
 
     # TODO: Get with pagination
 
     def create(
-        self,
-        db: Session,
-        *args,
-        obj_in: CreateSchemaType
+            self,
+            db: Session,
+            *args,
+            obj_in: CreateSchemaType
     ) -> ModelType:
         """Create a new instance in the model
 
@@ -89,11 +89,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def update(
-        self,
-        db: Session,
-        *args,
-        db_obj: ModelType,
-        obj_in: Union[UpdateSchemaType, Dict[str, Any]]
+            self,
+            db: Session,
+            *args,
+            db_obj: ModelType,
+            obj_in: Union[UpdateSchemaType, Dict[str, Any]]
     ) -> ModelType:
         """Update a given instance in the database
 
@@ -122,10 +122,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def delete(
-        self,
-        db: Session,
-        *args,
-        id: int
+            self,
+            db: Session,
+            *args,
+            id: int
     ) -> ModelType:
         """Deletion of an instance in the database
 
@@ -137,7 +137,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             ModelType: the instance that we deleted in the database
         """
 
-        obj = db.query(self.model).\
+        obj = db.query(self.model). \
             get(id)
 
         db.delete(obj)

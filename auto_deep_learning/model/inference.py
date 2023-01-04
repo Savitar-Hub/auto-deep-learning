@@ -7,17 +7,17 @@ from auto_deep_learning.model import Model
 from auto_deep_learning.utils.data_handler.transform.constants import (
     MEAN_CONSTANTS, STD_CONSTANTS)
 
+
 # TODO: the class names can be accessed at the `classes` attribute
 # of your dataset object (e.g., `train_dataset.classes`)
 
 
 def inference(
-    model: Model,
-    img_path: str,
-    top_k: int = 3,
-    use_cuda: bool = torch.cuda.is_available()
+        model: Model,
+        img_path: str,
+        top_k: int = 3,
+        use_cuda: bool = torch.cuda.is_available()
 ):
-
     # Open the image
     image = Image.open(img_path)
     image = image.convert('RGB')
@@ -52,7 +52,6 @@ def inference(
 
     # And we get through the answers
     for i in range(0, len(index)):
-
         # TODO: Will append the class which corresponds ot the value of index at position i
         # top_output.append(splitted_classes[index[i]])
         pass

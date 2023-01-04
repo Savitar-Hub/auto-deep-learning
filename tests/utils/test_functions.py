@@ -3,10 +3,8 @@ import os
 import shutil
 from typing import Dict, List
 
-import numpy as np
 import pandas as pd
 import pytest
-from PIL import Image
 
 from auto_deep_learning.exceptions.utils.functions import \
     IncorrectFolderStructure
@@ -25,7 +23,6 @@ def remove_test_dir():
 
         if os.path.exists(child_path) and \
                 os.path.isdir(child_path):
-
             shutil.rmtree(child_path)
 
 
@@ -68,9 +65,8 @@ def cleanup(request):
 
 class TestCreateDfImageFolder:
     def test_creation_df(
-        self
+            self
     ):
-
         # TODO: Pass this as constants
         columns: List[str] = ['image_path', 'class', 'split_type']
 
@@ -92,8 +88,8 @@ class TestCreateDfImageFolder:
 
 class TestImageFolderConvertion:
     def test_creation_df(
-        self,
-        fill_images,
+            self,
+            fill_images,
     ):
 
         df = image_folder_convertion('./tests/utils/images')
@@ -119,7 +115,7 @@ class TestImageFolderConvertion:
                 assert False
 
     def test_no_images_folder(
-        self
+            self
     ):
         remove_test_dir()
 
@@ -131,8 +127,8 @@ class TestImageFolderConvertion:
             assert True
 
     def test_imbalanced_classes(
-        self,
-        fill_images
+            self,
+            fill_images
     ):
         """
         Test to check that we need to have the same number of unique classes in both train/valid/test.

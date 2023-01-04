@@ -4,7 +4,6 @@ import pandas as pd
 import torchvision.transforms as transforms
 
 from auto_deep_learning.utils.config import ConfigurationObject
-
 from .base_creator import Creator
 
 conf_obj = ConfigurationObject()
@@ -12,11 +11,11 @@ conf_obj = ConfigurationObject()
 
 class DataCreator:
     def __init__(
-        self,
-        csv_data_path: Optional[str] = 'data.csv',
-        df: Optional[pd.DataFrame] = None,
-        not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constants
-        sampler_activated: Optional[bool] = False
+            self,
+            csv_data_path: Optional[str] = 'data.csv',
+            df: Optional[pd.DataFrame] = None,
+            not_class_info: List[str] = ['image_path', 'split_type'],  # TODO: As constants
+            sampler_activated: Optional[bool] = False
     ):
         """Create the DataLoaders for each of the split types.
 
@@ -46,7 +45,7 @@ class DataCreator:
 
     @classmethod
     def get_data_creators(
-        cls,
+            cls,
     ) -> Dict[str, Creator]:
 
         # TODO: upsapler/downsampler depending if is activated, with seed
@@ -72,8 +71,8 @@ class DataCreator:
         return dict_loader
 
     def __get_dummies_df(
-        self,
-        class_group: str
+            self,
+            class_group: str
     ) -> pd.DataFrame:
 
         dummy_df: pd.DataFrame = pd.get_dummies(
@@ -88,8 +87,8 @@ class DataCreator:
         return dummy_df
 
     def __get_dummies_mapping(
-        self,
-        class_group: str
+            self,
+            class_group: str
     ) -> Dict[str, Dict[str, str]]:
 
         # For that class group, get which are the columns in the dummmies and create the mapping between idx and class name

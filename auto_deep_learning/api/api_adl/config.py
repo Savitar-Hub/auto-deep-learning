@@ -21,9 +21,9 @@ class Settings(BaseSettings):
     # Connection to the database
     @validator('DATABASE_URI', pre=True)
     def assemble_db_connection(
-        self,
-        v: Optional[str],
-        values: Dict[str, Any]
+            self,
+            v: Optional[str],
+            values: Dict[str, Any]
     ) -> Any:
 
         if isinstance(v, str):
@@ -44,8 +44,8 @@ class Settings(BaseSettings):
 
     @validator('BACKEND_CORS_ORIGINS', pre=True)
     def assemble_cors_origins(
-        self,
-        v: Union[str, List[str]]
+            self,
+            v: Union[str, List[str]]
     ) -> Union[List[str], str]:
 
         if isinstance(v, str) and not v.startswith('['):
