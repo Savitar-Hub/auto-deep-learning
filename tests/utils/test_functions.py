@@ -6,8 +6,8 @@ from typing import Dict, List
 import pandas as pd
 import pytest
 
-from auto_deep_learning.exceptions.utils.functions import \
-    IncorrectFolderStructure
+from auto_deep_learning.exceptions.utils.functions import (
+    ImbalancedClassError, IncorrectFolderStructure)
 from auto_deep_learning.utils.functions import (create_df_image_folder,
                                                 image_folder_convertion)
 
@@ -112,7 +112,7 @@ class TestImageFolderConvertion:
 
         for idx, row in df.iterrows():
             if not row['image_path'].endswith('.jpg'):
-                assert False
+                raise AssertionError()
 
     def test_no_images_folder(
             self
@@ -121,7 +121,7 @@ class TestImageFolderConvertion:
 
         try:
             image_folder_convertion('./tests/utils/images')
-            assert False
+            raise AssertionError()
 
         except IncorrectFolderStructure:
             assert True
@@ -143,5 +143,5 @@ class TestImageFolderConvertion:
         try:
             df = image_folder_convertion('./tests/utils/images')
 
-        except:
+        except ImbalancedClassError:
             assert True
