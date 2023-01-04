@@ -6,6 +6,7 @@ from auto_deep_learning.enum import ModelName, ModelObjective
 from auto_deep_learning.exceptions.model import IncorrectCategoryType
 from auto_deep_learning.utils import DatasetSampler
 from auto_deep_learning.utils.functions import check_numerical_value
+
 from .arch.convolution import SimpleConvNet
 
 

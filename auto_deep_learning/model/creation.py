@@ -126,7 +126,7 @@ class Model:
                 optimizer.step()
 
                 train_loss = train_loss + (
-                        (1 / (batch_idx + 1)) * (loss.data.item() - train_loss)
+                    (1 / (batch_idx + 1)) * (loss.data.item() - train_loss)
                 )
                 del loss
 
@@ -156,7 +156,7 @@ class Model:
 
                     # Add this loss to the list (same as before but instead of train we use valid)
                     valid_loss = valid_loss + (
-                            (1 / (batch_idx + 1)) * (loss.data.item() - valid_loss)
+                        (1 / (batch_idx + 1)) * (loss.data.item() - valid_loss)
                     )
                     del loss
 
@@ -212,7 +212,7 @@ class Model:
 
                 # update average test loss
                 test_loss = test_loss + (
-                        (1 / (batch_idx + 1)) * (loss.data.item() - test_loss)
+                    (1 / (batch_idx + 1)) * (loss.data.item() - test_loss)
                 )
 
                 # convert output probabilities to predicted class

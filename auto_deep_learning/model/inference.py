@@ -7,7 +7,6 @@ from auto_deep_learning.model import Model
 from auto_deep_learning.utils.data_handler.transform.constants import (
     MEAN_CONSTANTS, STD_CONSTANTS)
 
-
 # TODO: the class names can be accessed at the `classes` attribute
 # of your dataset object (e.g., `train_dataset.classes`)
 

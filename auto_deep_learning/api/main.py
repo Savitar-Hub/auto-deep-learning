@@ -3,13 +3,12 @@ from pathlib import Path
 
 import alembic.command
 import alembic.config
+# import pydantic
+from api_adl.config import settings
 from fastapi import FastAPI
 from loguru import logger
 # from sqlmodel import Session
 from starlette.middleware.cors import CORSMiddleware
-
-# import pydantic
-from api_adl.config import settings
 
 # from typing import Optional
 

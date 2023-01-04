@@ -3,6 +3,7 @@ from typing import Dict
 from auto_deep_learning.enum import ModelObjective, OptimizerType
 from auto_deep_learning.utils.data_handler.transform.augmentation import \
     ImageTransformer
+
 from .singleton import Singleton
 
 train_transformer = ImageTransformer(

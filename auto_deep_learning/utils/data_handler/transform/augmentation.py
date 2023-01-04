@@ -4,8 +4,8 @@ import torchvision.transforms as transforms
 
 from auto_deep_learning.exceptions.utils import (InconsistentInput,
                                                  InvalidArgumentType)
-from .constants import MEAN_CONSTANTS, STD_CONSTANTS
 
+from .constants import MEAN_CONSTANTS, STD_CONSTANTS
 
 # from pydantic import validate_arguments
 
