@@ -129,7 +129,7 @@ class TestImageAugmentation:
 
             try:
                 ImageTransformer(**boolean_mapping)
-                assert False
+                raise AssertionError()
 
             except InvalidArgumentType:
                 assert True
