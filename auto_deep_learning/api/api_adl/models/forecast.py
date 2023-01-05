@@ -23,6 +23,10 @@ class Forecasts(SQLModel, table=True):
     objective: str = Field(max_length=256)
     correct: bool = Field(sa_column=sa.Column(sa.Boolean, nullable=False, server_default=false()))
 
+    # Which was the throughput & time it took where this inference was made
+    throughput: int = Field(sa_column=sa.Column(sa.Integer))
+    timing: int = Field(sa_column=sa.Column(sa.Integer))
+
     created_at: Optional[datetime] = Field(
         sa_column=sa.Column(
             sa.DateTime(),
