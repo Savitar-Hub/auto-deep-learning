@@ -25,6 +25,11 @@ To be able to install the dependencies related to the automatic creation of the 
     pip install --upgrade auto_deep_learning
 ```
 
+If you would like to contribute and want need to replicate the environment:
+```bash
+    sh env.sh
+    source venv/bin/activate
+```
 
 ## Project Structure
 The project structure is the following one:
