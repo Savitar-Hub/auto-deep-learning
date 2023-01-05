@@ -25,7 +25,7 @@ To be able to install the dependencies related to the automatic creation of the 
     pip install --upgrade auto_deep_learning
 ```
 
-If you would like to contribute and want need to replicate the environment:
+If you would like to contribute, to replicate the environment:
 ```bash
     sh env.sh
     source venv/bin/activate
