@@ -1,5 +1,6 @@
 # Auto-Deep-Learning (Auto Deep Learning)
-[![Downloads](https://static.pepy.tech/personalized-badge/auto-deep-learning?period=month&units=none&left_color=grey&right_color=blue&left_text=Downloads)](https://pepy.tech/project/auto_deep_learning) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python-Version](https://img.shields.io/badge/python-3.9-blue) ![issues](https://img.shields.io/github/issues/Nil-Andreu/auto_deep_learning) ![PyPI - Status](https://img.shields.io/pypi/status/auto_deep_learning) ![License](https://img.shields.io/github/license/Nil-Andreu/auto_deep_learning)
+[![Downloads](https://static.pepy.tech/personalized-badge/auto-deep-learning?period=total&units=none&left_color=grey&right_color=blue&left_text=Total%20downloads)](https://pepy.tech/project/auto-deep-learning)
+![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python-Version](https://img.shields.io/badge/python-3.9-blue) ![issues](https://img.shields.io/github/issues/Nil-Andreu/auto_deep_learning) ![PyPI - Status](https://img.shields.io/pypi/status/auto_deep_learning) ![License](https://img.shields.io/github/license/Nil-Andreu/auto_deep_learning)
 
 ```auto_deep_learning```: with this package, you will be able to create, train and deploy neural networks automatically based on the input that you provide.
 
